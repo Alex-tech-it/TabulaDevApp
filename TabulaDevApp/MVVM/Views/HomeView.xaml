@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="TabulaDevApp.MVVM.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:TabulaDevApp.MVVM.ViewModels"
+             xmlns:view="clr-namespace:TabulaDevApp.MVVM.Views"
+             xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1440">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type viewModel:MainPageViewModel}">
+            <view:MainPageView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:VisitViewModel}">
+            <view:VisitView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CommunityViewModel}">
+            <view:CommunityView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:OwnCardViewModel}">
+            <view:OwnCardView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+            <view:SettingsView/>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Border Style="{StaticResource BackgroundBorder}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Left Menu Panel-->
+            <Border Grid.Column="0" Grid.Row="0"
+                    Background="#EFEFEF">
+                <StackPanel>
+                    <StackPanel Background="Black" Margin="0 -5 0 0">
+                        <RadioButton Content="Главная страница"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="16"
+                                 Margin="0 50 0 0"
+                                 Style="{StaticResource HomeViewMenuButton}"
+                                 Command="{Binding NavigateMainPageCommand}"/>
+                        <RadioButton Content="Сообщества"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="16"
+                                 Style="{StaticResource HomeViewMenuButton}"
+                                 Command="{Binding NavigateCommunityCommand}"/>
+                        <RadioButton Content="Мои карточки"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="16"
+                                 Style="{StaticResource HomeViewMenuButton}"
+                                 Command="{Binding NavigateOwnCardsCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Background="Black" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15 10 5 10">
+                        <Ellipse Fill="White" Width="35" Height="35"/>
+                        <TextBlock Text="Пользователь" Foreground="White"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       Margin="10 0 5 0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 5 15"
+                                HorizontalAlignment="Left">
+                        <Button Content="Выход"
+                            Name="Out"
+                            Margin="0 0 10 0"
+                            FontSize="12"
+                            Foreground="White"
+                            Cursor="Hand"
+                            Style="{StaticResource PreviewNavigationButtonStyle}"
+                            Command="{Binding NavigateOutCommand}"/>
+                        <Button Content="Настройки"
+                            Name="Settings"
+                            FontSize="12"
+                            Foreground="White"
+                            Cursor="Hand"
+                            Style="{StaticResource PreviewNavigationButtonStyle}"
+                            Command="{Binding NavigateSettingsCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!--Content in Window-->
+            <ContentControl Grid.Row="0" Grid.Column="1"
+                            Content="{Binding CurrentViewModel}"/>
+        </Grid>
+    </Border>
+</UserControl>

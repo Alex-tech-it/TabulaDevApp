@@ -1,0 +1,22 @@
+﻿<Application x:Class="TabulaDevApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TabulaDevApp"
+             xmlns:viewModel="clr-namespace:TabulaDevApp.MVVM.ViewModels"
+             xmlns:view="clr-namespace:TabulaDevApp.MVVM.Views">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/Styles/BackgroundBorder.xaml" />
+                <ResourceDictionary Source="Theme/Styles/ControlButtonStyle.xaml" />
+                <ResourceDictionary Source="Theme/Styles/PreviewNavigationButtonStyle.xaml" />
+                <ResourceDictionary Source="Theme/Styles/TextBoxStyle.xaml" />
+                <ResourceDictionary Source="Theme/Styles/PasswordBox.xaml" />
+                <ResourceDictionary Source="Theme/Styles/ButtonStyle.xaml" />
+                <ResourceDictionary Source="Theme/Styles/HomeViewMenuButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
