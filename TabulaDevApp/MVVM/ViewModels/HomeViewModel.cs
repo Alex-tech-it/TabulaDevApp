@@ -18,6 +18,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateCommunityCommand { get; set; }
         public RelayCommand NavigateOwnCardsCommand { get; set; }
         public RelayCommand NavigateSettingsCommand { get; set; }
+        public RelayCommand NavigateKanbanBoardCommand { get; set; }
         public RelayCommand NavigateOutCommand { get; set; }
 
         public ObservableObject CurrentViewModel => _navigationMenuStore.CurrentViewModel;
@@ -49,6 +50,11 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateSettingsCommand = new RelayCommand(obj =>
             {
                 _navigationMenuStore.CurrentViewModel = new SettingsViewModel();
+            });
+
+            NavigateKanbanBoardCommand = new RelayCommand(obj =>
+            {
+                _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel();
             });
 
             NavigateOutCommand = new RelayCommand(obj =>

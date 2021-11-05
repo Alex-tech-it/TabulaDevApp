@@ -29,6 +29,10 @@
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:SettingsView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:KanbanBoardViewModel}">
+            <view:KanbanBoardView/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Border Style="{StaticResource BackgroundBorder}">
@@ -65,6 +69,11 @@
                                  FontSize="16"
                                  Style="{StaticResource HomeViewMenuButton}"
                                  Command="{Binding NavigateOwnCardsCommand}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <Button Content="New Board"
+                                FontSize="16"
+                                Command="{Binding NavigateKanbanBoardCommand}"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
