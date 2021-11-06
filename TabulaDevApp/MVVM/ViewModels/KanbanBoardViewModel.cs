@@ -15,8 +15,10 @@ namespace TabulaDevApp.MVVM.ViewModels
 {
     class KanbanBoardViewModel : ObservableObject
     {
-        private StackPanel _currentStackPanel;
-        private KanbanBoardModel _kanbanBoardModel;
+        private NavigationStore _navigationStore;   // Navigation to add New Card
+        private StackPanel _currentStackPanel;      // Shows tabel
+        private KanbanBoardModel _kanbanBoardModel; // Model contains structure of tabel
+
         public StackPanel CurrentStackPanel
         {
             get => _currentStackPanel;
@@ -26,7 +28,6 @@ namespace TabulaDevApp.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public KanbanBoardModel kanbanBoardModel
         {
             get => _kanbanBoardModel;
@@ -36,14 +37,17 @@ namespace TabulaDevApp.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         public KanbanBoardViewModel()
         {
-            kanbanBoardModel = new KanbanBoardModel();
-            StartUpGrid();
+            
         }
-        public KanbanBoardViewModel(KanbanBoardModel kanbanBoardModel)
+        public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model)
         {
+            kanbanBoardModel = model;
+            _navigationStore = navigation;
+            StartUpGrid();
+            UpdateStackPanel();
         }
 
         // Init prefered Grid
@@ -93,6 +97,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             newColumn.CornerRadius = new CornerRadius(10);
             newColumn.Margin = new Thickness(0, 0, 10, 0);
             newColumn.VerticalAlignment = VerticalAlignment.Top;
+
             // Style Title 
             TitleColumn.Background = Brushes.Transparent;
             TitleColumn.Foreground = Brushes.Black;
@@ -102,6 +107,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             TitleColumn.MaxWidth = 210;
             TitleColumn.MaxLines = 2;
             TitleColumn.Text = "New column";
+            TitleColumn.Style = Application.Current.Resources["AddCardTextBoxStyle"] as Style;
 
             // Style Button
             ButtonNewCard.Width = 225;
@@ -109,6 +115,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             ButtonNewCard.Foreground = Brushes.Black;
             ButtonNewCard.VerticalAlignment = VerticalAlignment.Bottom;
             ButtonNewCard.HorizontalAlignment = HorizontalAlignment.Center;
+            ButtonNewCard.Margin = new Thickness(5, 5, 0, 5);
             ButtonNewCard.Cursor = Cursors.Hand;
             ButtonNewCard.FontSize = 12;
             ButtonNewCard.Name = "Column_" + Convert.ToString(indexColumn);
@@ -139,9 +146,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
             int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
 
-            Card newCard = new Card();
-            newCard.Title = "New Card";
-            kanbanBoardModel.Lists[columnIndex].Cards.Add(newCard);
+            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex);
 
             UpdateStackPanel();
         }
@@ -149,22 +154,39 @@ namespace TabulaDevApp.MVVM.ViewModels
         private Border CreateUINewCard(Card card)
         {
             Border newCard = new Border();
+            StackPanel newPanel = new StackPanel();
             TextBlock textBlockTitle = new TextBlock();
+            TextBlock textDescription = new TextBlock();
+
+            newPanel.Orientation = Orientation.Vertical;
 
             newCard.BorderThickness = new Thickness(1);
             newCard.BorderBrush = Brushes.Black;
             newCard.CornerRadius = new CornerRadius(5);
             newCard.Margin = new Thickness(0, 0, 0, 5);
             newCard.Width = 215;
-            newCard.Height = 30;
 
-            textBlockTitle.FontSize = 13;
+            textBlockTitle.FontSize = 14;
+            textBlockTitle.TextWrapping = TextWrapping.Wrap;
+            textBlockTitle.MaxHeight = 40;
             textBlockTitle.Foreground = Brushes.Black;
             textBlockTitle.Margin = new Thickness(5, 3, 5, 3);
             textBlockTitle.Text = card.Title;
             textBlockTitle.HorizontalAlignment = HorizontalAlignment.Left;
+            textBlockTitle.TextTrimming = TextTrimming.WordEllipsis;
 
-            newCard.Child = textBlockTitle;
+            textDescription.FontSize = 12;
+            textDescription.TextWrapping = TextWrapping.Wrap;
+            textDescription.MaxHeight = 60;
+            textDescription.Foreground = Brushes.Gray;
+            textDescription.Margin = new Thickness(5, 5, 5, 3);
+            textDescription.Text = card.Description;
+            textDescription.HorizontalAlignment = HorizontalAlignment.Left;
+            textDescription.TextTrimming = TextTrimming.WordEllipsis;
+
+            newPanel.Children.Add(textBlockTitle);
+            newPanel.Children.Add(textDescription);
+            newCard.Child = newPanel;
 
             return newCard;
         }
@@ -183,5 +205,6 @@ namespace TabulaDevApp.MVVM.ViewModels
             newStackPanel.Children.Add(newButton);
             CurrentStackPanel = newStackPanel;
         }
+
     }
 }

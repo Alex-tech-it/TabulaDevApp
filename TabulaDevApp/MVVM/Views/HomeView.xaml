@@ -33,6 +33,14 @@
         <DataTemplate DataType="{x:Type viewModel:KanbanBoardViewModel}">
             <view:KanbanBoardView/>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModel:AddCardViewModel}">
+            <view:AddCardView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CreatKanbanBoardViewModel}">
+            <view:CreatKanbanBoardView/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Border Style="{StaticResource BackgroundBorder}">
@@ -111,6 +119,8 @@
             <!--Content in Window-->
             <ContentControl Grid.Row="0" Grid.Column="1"
                             Content="{Binding CurrentViewModel}"/>
+            <ContentControl Grid.Row="0" Grid.Column="1"
+                            Content="{Binding UpperViewModel}"/>
         </Grid>
     </Border>
 </UserControl>
