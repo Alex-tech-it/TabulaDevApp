@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,10 +35,13 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateCreatBoardCommand { get; set; }
         public RelayCommand NavigateExitBoardCommand { get; set; }
 
-        public CreatKanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model)
+        public CreatKanbanBoardViewModel(NavigationStore upperNavigation, 
+            NavigationStore navigation, 
+            KanbanBoardModel model,
+            ObservableCollection<KanbanBoardModel> listBoards)
         {
             IsNext = false;
-            TitleBoard = "";
+            TitleBoard = "Новая доска";
             NavigateCreatBoardCommand = new RelayCommand(obj =>
             {
                 if (TitleBoard != "")
@@ -46,6 +50,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                     model.TitleBoard = TitleBoard;
                     navigation.UpperViewModel = null;
                     navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, model);
+                    upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, listBoards, navigation);
+
                 } else
                 {
                     IsNext = true;

@@ -106,8 +106,18 @@ namespace TabulaDevApp.MVVM.ViewModels
             TitleColumn.Margin = new Thickness(5, 5, 0, 5);
             TitleColumn.MaxWidth = 210;
             TitleColumn.MaxLines = 2;
-            TitleColumn.Text = "New column";
-            TitleColumn.Style = Application.Current.Resources["AddCardTextBoxStyle"] as Style;
+            TitleColumn.Name = "Column_" + Convert.ToString(indexColumn);
+            TitleColumn.Style = Application.Current.Resources["ColumnTextStyle"] as Style;
+            TitleColumn.TextChanged += OnColumnTextChanged;
+
+            if (kanbanBoardModel.Lists[indexColumn].Title == "")
+            {
+                TitleColumn.Text = "Новая колонка";
+            }
+            else
+            {
+                TitleColumn.Text = kanbanBoardModel.Lists[indexColumn].Title;
+            }
 
             // Style Button
             ButtonNewCard.Width = 225;
@@ -130,6 +140,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             for (int i = 0; i < kanbanBoardModel.Lists[indexColumn].Cards.Count; i++)
             {
+                kanbanBoardModel.Lists[indexColumn].Cards[i].id = Convert.ToString(i) + "_" + indexColumn;
                 stackPanel.Children.Add(CreateUINewCard(kanbanBoardModel.Lists[indexColumn].Cards[i]));
             }
 
@@ -165,6 +176,8 @@ namespace TabulaDevApp.MVVM.ViewModels
             newCard.CornerRadius = new CornerRadius(5);
             newCard.Margin = new Thickness(0, 0, 0, 5);
             newCard.Width = 215;
+            newCard.Name = "Card_" + card.id;
+            newCard.MouseDown += OnClickCard;
 
             textBlockTitle.FontSize = 14;
             textBlockTitle.TextWrapping = TextWrapping.Wrap;
@@ -206,5 +219,24 @@ namespace TabulaDevApp.MVVM.ViewModels
             CurrentStackPanel = newStackPanel;
         }
 
+        private void OnClickCard(object sender, MouseButtonEventArgs e)
+        {
+            Border card = (Border)sender;
+            string[] arrayWordsButton = card.Name.Split(new char[] { '_' });
+            int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
+            int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
+
+            Console.WriteLine(kanbanBoardModel.Lists[columnIndex].Cards[cardIndex].Title);
+            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex);
+        }
+
+        private void OnColumnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox titleColumn = (TextBox)sender;
+            string[] arrayWordsButton = titleColumn.Name.Split(new char[] { '_' });
+            int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
+
+            kanbanBoardModel.Lists[columnIndex].Title = titleColumn.Text;
+        }
     }
 }

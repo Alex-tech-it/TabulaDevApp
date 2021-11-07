@@ -7,6 +7,8 @@ namespace TabulaDevApp.MVVM.Models
     public class Card : ObservableObject
     {
         private string _title;
+
+        public string id;
         public string Title {
             get => _title;
             set

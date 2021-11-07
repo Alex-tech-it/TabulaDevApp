@@ -101,6 +101,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\Views\CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\CommunityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,6 +165,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\Styles\ColumnTextStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Styles\ControlButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +203,7 @@
     <Compile Include="MVVM\Models\RegistrationModel.cs" />
     <Compile Include="MVVM\ViewModels\AddCardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\AuthorizationViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CommunityViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CreatKanbanBoardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HomeViewModel.cs" />
@@ -212,6 +221,9 @@
     </Compile>
     <Compile Include="MVVM\Views\AuthorizationView.xaml.cs">
       <DependentUpon>AuthorizationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Views\CommunityView.xaml.cs">
       <DependentUpon>CommunityView.xaml</DependentUpon>

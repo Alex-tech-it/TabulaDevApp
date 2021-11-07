@@ -28,6 +28,7 @@
                          FontSize="14"
                          TextWrapping="NoWrap"
                          MaxWidth="330"
+                         MinWidth="150"
                          Style="{StaticResource AddCardTextBoxStyle}"/>
                 <Border Height="1" Background="Gray"/>
                 <TextBlock Visibility="{Binding IsNext, Converter={StaticResource BooleanToVisibilityConverter}}"
