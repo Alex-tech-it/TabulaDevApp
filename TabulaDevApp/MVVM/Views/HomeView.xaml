@@ -59,29 +59,37 @@
 
             <!--Left Menu Panel-->
             <Border Grid.Column="0" Grid.Row="0"
-                    Background="#EFEFEF">
+                    Background="#1C1C21">
                 <StackPanel>
-                    <StackPanel Background="Black" Margin="0 -5 0 0">
+                    <StackPanel Background="#1C1C21" Margin="0">
                         <RadioButton Content="Главная страница"
                                 Height="50"
-                                Foreground="White"
+                                Foreground="#FFE0E0E0"
                                 FontSize="16"
                                 Margin="0 50 0 0"
                                 Style="{StaticResource HomeViewMenuButton}"
-                                Command="{Binding NavigateMainPageCommand}"/>
+                                Command="{Binding NavigateMainPageCommand}" 
+                                FontWeight="Medium"/>
                         <RadioButton Content="Сообщества"
                                 Height="50"
-                                Foreground="White"
+                                Foreground="#FFE0E0E0"
                                 FontSize="16"
+                                FontWeight="Medium"
                                 Style="{StaticResource HomeViewMenuButton}"
                                 Command="{Binding NavigateCommunityCommand}"/>
                         <RadioButton Content="Мои карточки"
                                 Height="50"
-                                Foreground="White"
+                                Foreground="#FFE0E0E0"
                                 FontSize="16"
+                                FontWeight="Medium"
                                 Style="{StaticResource HomeViewMenuButton}"
                                 Command="{Binding NavigateOwnCardsCommand}"/>
                     </StackPanel>
+                    <Separator Background="#A5767676" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               Width="240" 
+                               Height="1"/>
                     <StackPanel>
                         <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden"
                         HorizontalScrollBarVisibility="Hidden">
