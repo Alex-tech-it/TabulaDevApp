@@ -22,7 +22,7 @@
                            FontSize="28"
                            FontWeight="Bold"
                            TextAlignment="Center"/>
-                <TextBlock Text="Добро пожаловать в Tabule 
+                <TextBlock Text="Добро пожаловать в Tabula 
                            
                            Войдите в аккаунт, чтобы начать работать!"
                            TextWrapping="Wrap"
