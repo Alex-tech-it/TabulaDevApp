@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using TabulaDevApp.Core.Commands;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
@@ -22,13 +18,13 @@ namespace TabulaDevApp.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
-        public RegistrationViewModel(NavigationStore navigationStore)
+        public RegistrationViewModel(NavigationStore navigationStore, ObservableCollection<KanbanBoardModel> listBoards)
         {
             registrationModel = new RegistrationModel();
             NavigateHomeCommand = new RelayCommand(obj =>
             {
                 navigationStore.IsLogged = false;
-                navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
+                navigationStore.CurrentViewModel = new HomeViewModel(navigationStore, listBoards);
             });
         }
     }

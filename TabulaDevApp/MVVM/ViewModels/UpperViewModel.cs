@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TabulaDevApp.Core.Commands;
 using TabulaDevApp.Core.Servies;
+using TabulaDevApp.MVVM.Models;
 
 namespace TabulaDevApp.MVVM.ViewModels
 {
@@ -12,11 +14,11 @@ namespace TabulaDevApp.MVVM.ViewModels
     {
         public RelayCommand NavigateAuthorizationCommand { get; set; }
         public RelayCommand NavigateStateCommand { get; set; }
-        public UpperViewModel(NavigationStore navigationStore)
+        public UpperViewModel(NavigationStore navigationStore, ObservableCollection<KanbanBoardModel> listBoards)
         {
             NavigateAuthorizationCommand = new RelayCommand(obj =>
             {
-                navigationStore.CurrentViewModel = new AuthorizationViewModel(navigationStore);
+                navigationStore.CurrentViewModel = new AuthorizationViewModel(navigationStore, listBoards);
                 navigationStore.IsLogged = true;
                 navigationStore.UpperViewModel = null;
             });

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TabulaDevApp.Core.Commands;
 using TabulaDevApp.Core.Servies;
+using TabulaDevApp.MVVM.Models;
 
 namespace TabulaDevApp.MVVM.ViewModels
 {
@@ -14,6 +16,17 @@ namespace TabulaDevApp.MVVM.ViewModels
         private NavigationStore _navigationStore;
         private PreviewViewModel previewViewModel;
         private AuthorizationViewModel authorizationViewModel;
+        private ObservableCollection<KanbanBoardModel> _dataList;
+        public ObservableCollection<KanbanBoardModel> DataList
+        {
+            get => _dataList;
+            set
+            {
+                _dataList = value;
+                OnPropertyChanged("DataList");
+            }
+        }
+
 
         // Commands for moving the View within the home screen
         public RelayCommand NavigatePreviewCommand { get; set; }
@@ -27,6 +40,9 @@ namespace TabulaDevApp.MVVM.ViewModels
         // Class constructor
         public MainViewModel(NavigationStore navigationStore)
         {
+            // Data
+            DataList = new ObservableCollection<KanbanBoardModel>();
+
             // Init Navigator Store
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
@@ -36,7 +52,8 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             // Init ViewModels
             previewViewModel = new PreviewViewModel();
-            authorizationViewModel = new AuthorizationViewModel(_navigationStore);
+            authorizationViewModel = new AuthorizationViewModel(_navigationStore, DataList);
+            
 
             // Init Commands
             NavigatePreviewCommand = new RelayCommand(obj =>
