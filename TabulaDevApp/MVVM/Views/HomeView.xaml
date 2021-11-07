@@ -29,6 +29,22 @@
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:SettingsView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:KanbanBoardViewModel}">
+            <view:KanbanBoardView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModel:AddCardViewModel}">
+            <view:AddCardView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CreatKanbanBoardViewModel}">
+            <view:CreatKanbanBoardView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CardViewModel}">
+            <view:CardView/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Border Style="{StaticResource BackgroundBorder}">
@@ -47,30 +63,45 @@
                 <StackPanel>
                     <StackPanel Background="Black" Margin="0 -5 0 0">
                         <RadioButton Content="Главная страница"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="16"
-                                 Margin="0 50 0 0"
-                                 Style="{StaticResource HomeViewMenuButton}"
-                                 Command="{Binding NavigateMainPageCommand}"/>
+                                Height="50"
+                                Foreground="White"
+                                FontSize="16"
+                                Margin="0 50 0 0"
+                                Style="{StaticResource HomeViewMenuButton}"
+                                Command="{Binding NavigateMainPageCommand}"/>
                         <RadioButton Content="Сообщества"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="16"
-                                 Style="{StaticResource HomeViewMenuButton}"
-                                 Command="{Binding NavigateCommunityCommand}"/>
+                                Height="50"
+                                Foreground="White"
+                                FontSize="16"
+                                Style="{StaticResource HomeViewMenuButton}"
+                                Command="{Binding NavigateCommunityCommand}"/>
                         <RadioButton Content="Мои карточки"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="16"
-                                 Style="{StaticResource HomeViewMenuButton}"
-                                 Command="{Binding NavigateOwnCardsCommand}"/>
+                                Height="50"
+                                Foreground="White"
+                                FontSize="16"
+                                Style="{StaticResource HomeViewMenuButton}"
+                                Command="{Binding NavigateOwnCardsCommand}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden"
+                        HorizontalScrollBarVisibility="Hidden">
+                            <ContentPresenter Content="{Binding StackPanelListBoards}" 
+                                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Margin="10 5 10 0"/>
+                        </ScrollViewer>
                     </StackPanel>
                 </StackPanel>
             </Border>
-
+    
             <Border Background="Black" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
                 <StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Background="#EFEFEF">
+                        <Button Content="Создать доску"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                FontSize="14"
+                                Command="{Binding NavigateKanbanBoardCommand}"/>
+                    </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="15 10 5 10">
                         <Ellipse Fill="White" Width="35" Height="35"/>
                         <TextBlock Text="Пользователь" Foreground="White"
@@ -102,6 +133,8 @@
             <!--Content in Window-->
             <ContentControl Grid.Row="0" Grid.Column="1"
                             Content="{Binding CurrentViewModel}"/>
+            <ContentControl Grid.Row="0" Grid.Column="1"
+                            Content="{Binding UpperViewModel}"/>
         </Grid>
     </Border>
 </UserControl>

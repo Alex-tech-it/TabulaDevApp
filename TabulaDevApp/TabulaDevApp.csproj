@@ -93,7 +93,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVVM\Views\AddCardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\AuthorizationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\CardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -101,7 +109,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\Views\CreatKanbanBoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\HomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\KanbanBoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,6 +153,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\Styles\AddCardTextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Styles\BackgroundBorder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,11 +165,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\Styles\ColumnTextStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Styles\ControlButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\Styles\HomeViewMenuButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Styles\KanbanBoardStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -168,10 +196,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVVM\Models\AuthorizationModel.cs" />
+    <Compile Include="MVVM\Models\Card.cs" />
+    <Compile Include="MVVM\Models\ColumnData.cs" />
+    <Compile Include="MVVM\Models\KanbanBoardModel.cs" />
+    <Compile Include="MVVM\Models\Participant.cs" />
     <Compile Include="MVVM\Models\RegistrationModel.cs" />
+    <Compile Include="MVVM\ViewModels\AddCardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\AuthorizationViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CommunityViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CreatKanbanBoardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HomeViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\KanbanBoardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainViewModel.cs" />
     <Compile Include="MVVM\ViewModels\OwnCardViewModel.cs" />
@@ -180,14 +216,26 @@
     <Compile Include="MVVM\ViewModels\SettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\UpperViewModel.cs" />
     <Compile Include="MVVM\ViewModels\VisitViewModel.cs" />
+    <Compile Include="MVVM\Views\AddCardView.xaml.cs">
+      <DependentUpon>AddCardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVVM\Views\AuthorizationView.xaml.cs">
       <DependentUpon>AuthorizationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Views\CommunityView.xaml.cs">
       <DependentUpon>CommunityView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\Views\CreatKanbanBoardView.xaml.cs">
+      <DependentUpon>CreatKanbanBoardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVVM\Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\KanbanBoardView.xaml.cs">
+      <DependentUpon>KanbanBoardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Views\MainPageView.xaml.cs">
       <DependentUpon>MainPageView.xaml</DependentUpon>

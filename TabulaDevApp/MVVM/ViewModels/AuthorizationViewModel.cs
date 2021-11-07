@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,17 +25,17 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateHomeCommand { get; set; }
         public RelayCommand NavigateRegistrationCommand { get; set; }
 
-        public AuthorizationViewModel(NavigationStore navigationStore)
+        public AuthorizationViewModel(NavigationStore navigationStore, ObservableCollection<KanbanBoardModel> listBoards)
         {
             authorizationModel = new AuthorizationModel();
             NavigateHomeCommand = new RelayCommand(obj =>
             {
                 navigationStore.IsLogged = false;
-                navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
+                navigationStore.CurrentViewModel = new HomeViewModel(navigationStore, listBoards);
             });
             NavigateRegistrationCommand = new RelayCommand(obj =>
             {
-                navigationStore.CurrentViewModel = new RegistrationViewModel(navigationStore);
+                navigationStore.CurrentViewModel = new RegistrationViewModel(navigationStore, listBoards);
                 authorizationModel = new AuthorizationModel();
             });
         }
