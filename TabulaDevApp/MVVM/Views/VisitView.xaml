@@ -16,56 +16,18 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Background="White">
+    <Border Background="#26262C">
         <Grid>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Добро пожаловать"
+                <TextBlock Text="Добро пожаловать, *UserName*!"
                        TextAlignment="Center"
-                       FontSize="36"/>
+                       FontSize="36" Foreground="#FFF4F5F5"/>
                 <TextBlock Text="Начните работу, создав новую доску или выбрав из существующих..."
                        TextAlignment="Center"
-                       FontSize="18"/>
+                       FontSize="18" Foreground="#FFF4F5F5"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="140">
-                <Border Width="235" Background="#FFF3F3F3" BorderThickness="1,1,1,0" CornerRadius="15,15,0,0" Padding="5,5,0,0" BorderBrush="#FF303F4D">
-                    <StackPanel>
-                        <TextBlock FontSize="16" FontWeight="Medium">
-                            <InlineUIContainer>
-                                <Image Source="/TabulaDevApp;component/Images/checked.png" Height="15"></Image>
-                            </InlineUIContainer>
-                            <Run>Дайте мозгу отдохнуть</Run>
-                        </TextBlock>
-                        <TextBlock TextWrapping="Wrap" Text="Распланируйте свои задачи, не перегружая свой разум лавиной невыполенных дел и повысьте свою эффективность на максимум." FontSize="14" ></TextBlock>
-                    </StackPanel>
-                </Border>
-                <Separator/>
-
-                <Border Width="235" Padding="5,5,0,0" Background="#FFF3F3F3" BorderThickness="1,1,1,0" CornerRadius="15,15,0,0" BorderBrush="#FF303F4D">
-                    <StackPanel>
-                        <TextBlock FontSize="16" FontWeight="Medium">
-                            <InlineUIContainer>
-                                <Image Source="/TabulaDevApp;component/Images/group (1).png" Height="15"></Image>
-                            </InlineUIContainer>
-                            <Run>Teamwork</Run>
-                        </TextBlock>
-                        <TextBlock TextWrapping="Wrap" Text="Присоединяйтесь к работе со своими товарищами и обсуждайте работу в условиях абсолютной прозрачности." FontSize="14" ></TextBlock>
-                    </StackPanel>
-                </Border>
-                <Separator/>
-
-                <Border Width="235" Padding="5,5,0,0" Background="#FFF3F3F3" BorderThickness="1,1,1,0" CornerRadius="15,15,0,0" BorderBrush="#FF303F4D">
-                    <StackPanel>
-                        <TextBlock FontSize="16" FontWeight="Medium">
-                            <InlineUIContainer>
-                                <Image Source="/TabulaDevApp;component/Images/teamwork (2).png" Height="15"></Image>
-                            </InlineUIContainer>
-                            <Run>Команда в полном составе</Run>
-                        </TextBlock>
-                        <TextBlock TextWrapping="Wrap" Text="Организуйте эффективную работу, распределяя задания участникам своей команды в соответствии с их позициями." FontSize="14" ></TextBlock>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
+            
         </Grid>
     </Border>
 </UserControl>

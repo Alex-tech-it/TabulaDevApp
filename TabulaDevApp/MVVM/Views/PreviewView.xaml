@@ -69,7 +69,7 @@
                                        Foreground="White" 
                                        Margin="0,15,0,0">
                             <InlineUIContainer>
-                                <Image Source="/TabulaDevApp;component/Images/group (2).png" 
+                                <Image Source="/TabulaDevApp;component/Images/group.png" 
                                        Height="15"/>
                             </InlineUIContainer>
                             <Run>Teamwork</Run>
@@ -92,7 +92,7 @@
                                        Foreground="White" 
                                        Margin="0,15,0,0">
                             <InlineUIContainer>
-                                <Image Source="/TabulaDevApp;component/Images/teamwork (3).png" 
+                                <Image Source="/TabulaDevApp;component/Images/teamwork.png" 
                                        Height="15"/>
                             </InlineUIContainer>
                             <Run>Команда в полном составе</Run>

@@ -289,27 +289,6 @@
     <Folder Include="MVVM\Components\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\brain.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="MVVM\Views\brain.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\group.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\teamwork.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\group %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\teamwork %282%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\checked.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PreviewBackground.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -325,10 +304,28 @@
     <Resource Include="Images\success.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\teamwork %283%29.png" />
+    <Resource Include="Images\teamwork.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\group %282%29.png" />
+    <Resource Include="Images\group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HistoryIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MembersIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SettingsIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlusIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddDeskIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddTagIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

@@ -6,9 +6,28 @@
              xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border Background="White">
-        <TextBlock Text="Главная страница"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+    <UserControl.Resources>
+        <Style TargetType="Image">
+            <Setter Property="RenderOptions.BitmapScalingMode" 
+                    Value="HighQuality"/>
+        </Style>
+    </UserControl.Resources>
+    <Border Background="#26262C">
+        <Grid>
+            <StackPanel>
+                <TextBlock Foreground="#F4F5F5" 
+                           FontWeight="Medium" 
+                           FontSize="22" 
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Top" 
+                           Margin="30,100,0,0">
+                    <InlineUIContainer>
+                        <Image Source="/TabulaDevApp;component/Images/HistoryIcon.png" 
+                               Height="18"/>
+                    </InlineUIContainer>
+                    <Run>Недавно посещённые доски</Run>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
     </Border>
 </UserControl>
