@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid>
+    <Grid Background="#26262C">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -19,8 +19,8 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0"
                    Text="{Binding kanbanBoardModel.TitleBoard}"
+                   Foreground="#F4F5F5" 
                    FontWeight="Bold"
-                   Foreground="Black"
                    FontSize="18"
                    HorizontalAlignment="Left"
                    Margin="15 0 0 0"/>
