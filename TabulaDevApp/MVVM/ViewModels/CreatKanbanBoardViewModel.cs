@@ -36,8 +36,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateExitBoardCommand { get; set; }
 
         public CreatKanbanBoardViewModel(NavigationStore upperNavigation, 
-            NavigationStore navigation, 
-            KanbanBoardModel model,
+            NavigationStore navigation,
             ObservableCollection<KanbanBoardModel> listBoards)
         {
             IsNext = false;
@@ -46,10 +45,12 @@ namespace TabulaDevApp.MVVM.ViewModels
             {
                 if (TitleBoard != "")
                 {
+                    KanbanBoardModel newModel = new KanbanBoardModel();
                     IsNext = false; ;
-                    model.TitleBoard = TitleBoard;
+                    newModel.TitleBoard = TitleBoard;
+                    listBoards.Add(newModel);
                     navigation.UpperViewModel = null;
-                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, model);
+                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, newModel);
                     upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, listBoards, navigation);
 
                 } else

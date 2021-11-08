@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TabulaDevApp.Core.Commands;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
@@ -108,12 +109,10 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             NavigateKanbanBoardCommand = new RelayCommand(obj =>
             {
-                DataList.Add(new KanbanBoardModel());
                 _navigationMenuStore.UpperViewModel = null;
                 _navigationMenuStore.CurrentViewModel = new CreatKanbanBoardViewModel(
                     navigationStore,
-                    _navigationMenuStore, 
-                    DataList[DataList.Count - 1],
+                    _navigationMenuStore,
                     DataList
                 );
             });
@@ -148,6 +147,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                 newButton.Click += OnBoardClick;
                 newButton.Margin = new Thickness(0, 5, 0, 5);
                 newButton.Content = DataList[i].TitleBoard;
+                newButton.Foreground = Brushes.White;
                 newButton.Style = Application.Current.Resources["PreviewNavigationButtonStyle"] as Style;
                 
                 newPanel.Children.Add(newButton);

@@ -105,8 +105,8 @@
 
             <Border Background="#2F3037" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
                 <StackPanel>
-                    <StackPanel Grid.Column="0" Grid.Row="0" Background="#EFEFEF">
-                        <Button 
+                    <StackPanel Grid.Column="0" Grid.Row="0" Background="Transparent">
+                        <Button Style="{StaticResource AddNewBoardButtonStyle}"
                                 Background="#1C1C21"
                                 BorderThickness="0"
                                 FontSize="16"

@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="AddNewBoardButtonStyle" TargetType="{x:Type Button}">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Source="/TabulaDevApp;component/Images/AddDeskIcon.png" 
+                                           Height="25"/>
+                                <TextBlock 
+                                        FontSize="16" 
+                                        FontWeight="Medium" 
+                                        VerticalAlignment="Center" 
+                                        Margin="10,0,0,2">Создать доску
+                                </TextBlock>
+                            </WrapPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#2F3037">
+                                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="/TabulaDevApp;component/Images/AddDeskIcon.png" 
+                                           Height="25"/>
+                                    <TextBlock 
+                                        FontSize="16" 
+                                        FontWeight="Medium" 
+                                        VerticalAlignment="Center" 
+                                        Margin="10,0,0,2">Создать доску
+                                    </TextBlock>
+                                </WrapPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#393A41">
+                                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="/TabulaDevApp;component/Images/AddDeskIcon.png" 
+                                           Height="25"/>
+                                    <TextBlock 
+                                        FontSize="16" 
+                                        FontWeight="Medium" 
+                                        VerticalAlignment="Center" 
+                                        Margin="10,0,0,2">Создать доску
+                                    </TextBlock>
+                                </WrapPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

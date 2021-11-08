@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Theme/Styles/HomeViewMenuButton.xaml" />
                 <ResourceDictionary Source="Theme/Styles/AddCardTextBoxStyle.xaml" />
                 <ResourceDictionary Source="Theme/Styles/ColumnTextStyle.xaml" />
+                <ResourceDictionary Source="Theme/Styles/AddNewBoardButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
 

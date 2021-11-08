@@ -63,11 +63,15 @@ namespace TabulaDevApp.MVVM.ViewModels
         // Created Button that show's on leff site grid
         private Button CreateNewListButton()
         {
+            SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
+            SolidColorBrush background = new SolidColorBrush { Color = Color.FromRgb(47, 48, 55) };
             Button newButtonCreateNewList = new Button();
+
             newButtonCreateNewList.Width = 225;
             newButtonCreateNewList.Height = 30;
-            newButtonCreateNewList.Background = Brushes.Black;
-            newButtonCreateNewList.Foreground = Brushes.White;
+            newButtonCreateNewList.Background = background;
+            newButtonCreateNewList.Foreground = foreground;
+
             newButtonCreateNewList.Content = "Добавить список";
             newButtonCreateNewList.HorizontalAlignment = HorizontalAlignment.Center;
             newButtonCreateNewList.VerticalAlignment = VerticalAlignment.Top;
@@ -86,22 +90,26 @@ namespace TabulaDevApp.MVVM.ViewModels
         // Bilding UI List with Cards
         private Border CreateUINewColumn(int indexColumn)
         {
+            SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
+            SolidColorBrush background = new SolidColorBrush { Color = Color.FromRgb(47, 48, 55) };
+
             Border newColumn = new Border();
             TextBox TitleColumn = new TextBox();
             Button ButtonNewCard = new Button();
             StackPanel stackPanel = new StackPanel();
 
             // Style Column
-            newColumn.BorderThickness = new Thickness(1);
-            newColumn.BorderBrush = Brushes.Black;
+            newColumn.BorderThickness = new Thickness(0);
+            newColumn.BorderBrush = foreground;
             newColumn.CornerRadius = new CornerRadius(10);
             newColumn.Margin = new Thickness(0, 0, 10, 0);
             newColumn.VerticalAlignment = VerticalAlignment.Top;
 
             // Style Title 
             TitleColumn.Background = Brushes.Transparent;
-            TitleColumn.Foreground = Brushes.Black;
+            TitleColumn.Foreground = foreground;
             TitleColumn.FontSize = 14;
+            TitleColumn.FontWeight = FontWeights.Medium;
             TitleColumn.HorizontalAlignment = HorizontalAlignment.Left;
             TitleColumn.Margin = new Thickness(5, 5, 0, 5);
             TitleColumn.MaxWidth = 210;
@@ -122,7 +130,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             // Style Button
             ButtonNewCard.Width = 225;
             ButtonNewCard.Height = 30;
-            ButtonNewCard.Foreground = Brushes.Black;
+            ButtonNewCard.Foreground = foreground;
             ButtonNewCard.VerticalAlignment = VerticalAlignment.Bottom;
             ButtonNewCard.HorizontalAlignment = HorizontalAlignment.Center;
             ButtonNewCard.Margin = new Thickness(5, 5, 0, 5);
@@ -164,6 +172,9 @@ namespace TabulaDevApp.MVVM.ViewModels
         
         private Border CreateUINewCard(Card card)
         {
+            SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
+            SolidColorBrush background = new SolidColorBrush { Color = Color.FromRgb(47, 48, 55) };
+
             Border newCard = new Border();
             StackPanel newPanel = new StackPanel();
             TextBlock textBlockTitle = new TextBlock();
@@ -171,8 +182,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             newPanel.Orientation = Orientation.Vertical;
 
-            newCard.BorderThickness = new Thickness(1);
-            newCard.BorderBrush = Brushes.Black;
+            newCard.Background = background;
             newCard.CornerRadius = new CornerRadius(5);
             newCard.Margin = new Thickness(0, 0, 0, 5);
             newCard.Width = 215;
@@ -182,7 +192,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             textBlockTitle.FontSize = 14;
             textBlockTitle.TextWrapping = TextWrapping.Wrap;
             textBlockTitle.MaxHeight = 40;
-            textBlockTitle.Foreground = Brushes.Black;
+            textBlockTitle.Foreground = foreground;
             textBlockTitle.Margin = new Thickness(5, 3, 5, 3);
             textBlockTitle.Text = card.Title;
             textBlockTitle.HorizontalAlignment = HorizontalAlignment.Left;
