@@ -34,4 +34,9 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <Style TargetType="Image">
+        <Setter Property="RenderOptions.BitmapScalingMode" 
+                    Value="HighQuality"/>
+    </Style>
 </ResourceDictionary>

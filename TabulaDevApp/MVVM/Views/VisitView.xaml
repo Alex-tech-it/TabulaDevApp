@@ -16,15 +16,15 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Background="White">
+    <Border Background="#26262C">
         <Grid>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Добро пожаловать, *UserName*!"
                        TextAlignment="Center"
-                       FontSize="36"/>
+                       FontSize="36" Foreground="#FFF4F5F5"/>
                 <TextBlock Text="Начните работу, создав новую доску или выбрав из существующих..."
                        TextAlignment="Center"
-                       FontSize="18"/>
+                       FontSize="18" Foreground="#FFF4F5F5"/>
             </StackPanel>
 
             

@@ -10,6 +10,8 @@
              d:DesignHeight="850" d:DesignWidth="1440">
 
     <UserControl.Resources>
+
+        
         <DataTemplate DataType="{x:Type viewModel:MainPageViewModel}">
             <view:MainPageView/>
         </DataTemplate>
@@ -100,15 +102,28 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-    
-            <Border Background="Black" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
+
+            <Border Background="#2F3037" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
                 <StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="0" Background="#EFEFEF">
-                        <Button Content="Создать доску"
-                                Background="Transparent"
+                        <Button 
+                                Background="#1C1C21"
                                 BorderThickness="0"
-                                FontSize="14"
-                                Command="{Binding NavigateKanbanBoardCommand}"/>
+                                FontSize="16"
+                                Foreground="#FFF4F5F5"
+                                Command="{Binding NavigateKanbanBoardCommand}" Height="50" >
+                            
+                            <WrapPanel>
+                                <Image Source="/TabulaDevApp;component/Images/AddDeskIcon.png" 
+                                       Height="25"/>
+                                <TextBlock 
+                                    FontSize="16" 
+                                    FontWeight="Medium" 
+                                    VerticalAlignment="Center" 
+                                    Margin="10,0,0,2">Создать доску
+                                </TextBlock>
+                            </WrapPanel>
+                        </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="15 10 5 10">
                         <Ellipse Fill="White" Width="35" Height="35"/>
@@ -133,7 +148,8 @@
                             Foreground="White"
                             Cursor="Hand"
                             Style="{StaticResource PreviewNavigationButtonStyle}"
-                            Command="{Binding NavigateSettingsCommand}"/>
+                            Command="{Binding NavigateSettingsCommand}"
+                                />
                     </StackPanel>
                 </StackPanel>
             </Border>
