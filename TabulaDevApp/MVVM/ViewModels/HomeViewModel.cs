@@ -163,5 +163,9 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel(_navigationMenuStore, DataList[index]);
         }
+
+
+
+
     }
 }

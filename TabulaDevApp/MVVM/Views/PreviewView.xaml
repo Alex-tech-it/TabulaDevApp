@@ -21,6 +21,7 @@
         </Border.Background>
         
         <Grid>
+            
             <StackPanel Margin="0,0,-15,-305">
                 <TextBlock FontWeight="Bold" 
                            FontSize="24" 
