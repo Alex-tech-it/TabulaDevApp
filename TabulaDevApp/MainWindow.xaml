@@ -8,13 +8,17 @@
         xmlns:view="clr-namespace:TabulaDevApp.MVVM.Views"
         mc:Ignorable="d"
         Height="700" Width="1440"
+        MinHeight="550" MinWidth="700"
         Title="Tabula"
         WindowStyle="None"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True" 
+        ResizeMode="CanResizeWithGrip"
+        UseLayoutRounding="True">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
 
         <DataTemplate DataType="{x:Type viewModel:PreviewViewModel}">
             <view:PreviewView/>
@@ -50,7 +54,7 @@
             <!--Row 0 - Title App-->
             <StackPanel Grid.Row="0" Grid.Column="0"
                         Orientation="Horizontal"
-                        Background="Black"
+                        Background="#09090B"
                         MouseLeftButtonDown="titleBar_MouseLeftButtonDown">
                 <!--Title-->
                 <TextBlock Text="Tabula"
@@ -59,17 +63,20 @@
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"
                            Foreground="White"
-                           FontSize="18"/>
+                           FontSize="18" FontFamily="Roboto"/>
             </StackPanel>
             <!--Row 0 - Window Control Buttons-->
             <StackPanel Grid.Row="0" Grid.Column="0" 
                         Orientation="Horizontal"
                         HorizontalAlignment="Right">
-                <ToggleButton Style="{StaticResource ControlButtonStyle}"
-                              Click="Button_Click"/>
-                <ToggleButton Style="{StaticResource ControlButtonStyle}"/>
-                <ToggleButton Style="{StaticResource ControlButtonStyle}"
-                        Click="Button_Click_1"/>
+                <ToggleButton Style="{StaticResource ControlHideButtonStyle}"
+                              Click="Button_Click"
+                              Width="50"/>
+                <ToggleButton Style="{StaticResource ControlFullscreenButtonStyle}"
+                              Width="50"/>
+                <ToggleButton Style="{StaticResource ControlExitButtonStyle}"
+                        Click="Button_Click_1" 
+                              Width="50"/>
 
             </StackPanel>
 

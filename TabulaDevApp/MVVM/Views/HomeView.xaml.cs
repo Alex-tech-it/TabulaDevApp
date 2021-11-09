@@ -24,5 +24,6 @@ namespace TabulaDevApp.MVVM.Views
         {
             InitializeComponent();
         }
+
     }
 }
