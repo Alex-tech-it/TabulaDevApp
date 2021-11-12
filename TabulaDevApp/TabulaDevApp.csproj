@@ -38,6 +38,9 @@
     <Reference Include="FireSharp, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FireSharp.2.0.4\lib\portable-net45+sl5+wp8+win8\FireSharp.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.2.4.3\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -205,6 +208,7 @@
     <Compile Include="MVVM\Models\KanbanBoardModel.cs" />
     <Compile Include="MVVM\Models\Participant.cs" />
     <Compile Include="MVVM\Models\RegistrationModel.cs" />
+    <Compile Include="MVVM\Models\DragAndDropUIList.cs" />
     <Compile Include="MVVM\ViewModels\AddCardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\AuthorizationViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CardViewModel.cs" />
