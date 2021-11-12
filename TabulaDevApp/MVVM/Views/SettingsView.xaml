@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border Background="White">
+    <Border Background="#FF26262C">
         <TextBlock Text="Настройки"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+                   VerticalAlignment="Center" Foreground="#FFF4F5F5"/>
     </Border>
 </UserControl>

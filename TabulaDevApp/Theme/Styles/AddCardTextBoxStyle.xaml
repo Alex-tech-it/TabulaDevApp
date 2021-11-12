@@ -5,8 +5,13 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border BorderThickness="0" SnapsToDevicePixels="True">
+                        <Border BorderThickness="1" 
+                                SnapsToDevicePixels="True"
+                                Background="#2F3037" 
+                                BorderBrush="#FF26262C"
+                                CornerRadius="3">
                             <ScrollViewer x:Name="PART_ContentHost" />
+
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -14,5 +19,45 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style.Setters>
+    </Style>
+    
+    
+    <Style TargetType="{x:Type ToggleButton}" x:Key="CloseSmallWindow">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="Transparent">
+                            <WrapPanel VerticalAlignment="Center"
+                                   HorizontalAlignment="Center">
+                                <Image Source="/TabulaDevApp;component/Images/PaleCrossIcon.png" 
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       Height="14"/>
+                            </WrapPanel>
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="Transparent">
+                                <Image Source="/TabulaDevApp;component/Images/CrossIcon.png" 
+                                       Height="14" 
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

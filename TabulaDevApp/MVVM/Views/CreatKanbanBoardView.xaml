@@ -11,26 +11,28 @@
     </UserControl.Resources>
     
     <Grid>
-        <Border Background="White" Opacity="0.6"/>
+        <Border Background="black" Opacity="0.6"/>
         <Border Background="White" Opacity="0.6" Width="400" Height="150"
                 CornerRadius="20">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="30"/>
             </Border.Effect>
         </Border>
-        <Border Background="White" Width="400" Height="150"
+        <Border Background="#FF393A41" Width="400" Height="150"
                 CornerRadius="20">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Название доски"
-                           FontSize="16"
-                           Margin="0 0 0 20"/>
+                           FontSize="18"
+                           Margin="0 0 0 20" Foreground="#FFF4F5F5" FontWeight="Medium"/>
                 <TextBox Text="{Binding TitleBoard}"
                          FontSize="14"
                          TextWrapping="NoWrap"
                          MaxWidth="330"
                          MinWidth="150"
-                         Style="{StaticResource AddCardTextBoxStyle}"/>
-                <Border Height="1" Background="Gray"/>
+                         Style="{StaticResource AddCardTextBoxStyle}" 
+                         Foreground="#FFF4F5F5" 
+                         CaretBrush="#FFF4F5F5"
+                         Padding="4"/>
                 <TextBlock Visibility="{Binding IsNext, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Margin="5 2 0 5"
                            Foreground="Red"
@@ -42,20 +44,22 @@
                         Width="160"
                         Height="30"
                         FontSize="14"
-                        Background="Black"
+                        Background="#FF555562"
                         Margin="0 0 5 0"
                         TextBlock.Foreground="White"
                         Style="{StaticResource ButtonStyle}"
-                        Command="{Binding NavigateCreatBoardCommand}"/>
+                        Command="{Binding NavigateCreatBoardCommand}" 
+                            FontWeight="Medium"/>
                     <Button Content="Отмена"
                         Width="160"
                         Height="30"
                         FontSize="14"
                         Margin="5 0 0 0"
-                        Background="Black"
+                        Background="#FF555562"
                         TextBlock.Foreground="White"
                         Style="{StaticResource ButtonStyle}"
-                        Command="{Binding NavigateExitBoardCommand}"/>
+                        Command="{Binding NavigateExitBoardCommand}" 
+                            FontWeight="Medium"/>
                 </StackPanel>
             </StackPanel>
         </Border>
