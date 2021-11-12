@@ -8,6 +8,7 @@ namespace TabulaDevApp.MVVM.Models
     {
         private string _title;
 
+        public bool isDrag;
         public string id;
         public string Title {
             get => _title;
@@ -25,6 +26,7 @@ namespace TabulaDevApp.MVVM.Models
         {
             Title = "Заголовок карточки";
             Description = "Описание карточки";
+            isDrag = false;
         }
     }
 }

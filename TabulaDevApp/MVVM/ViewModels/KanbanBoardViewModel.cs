@@ -19,6 +19,10 @@ namespace TabulaDevApp.MVVM.ViewModels
         private StackPanel _currentStackPanel;              // Shows tabel
         private KanbanBoardModel _kanbanBoardModel;         // Model contains structure of tabel
         private Card _dragAndDropCurrentCard;
+        private Border _dragAndDropEmptyCard;
+        private Canvas _dragOverPreviesColumn;
+        private bool _dragOverIsEmpty;
+        private int _dragOverColumnStore;
         private int _dragAndDropStoreCardIndex;
         private int _dragAndDropStoreColumnIndex;
 
@@ -51,6 +55,9 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             _dragAndDropStoreCardIndex = -1;
             _dragAndDropStoreColumnIndex = -1;
+            _dragOverColumnStore = -1;
+            _dragAndDropEmptyCard = CreateUIEmptyCard();
+            _dragOverIsEmpty = true;
 
             kanbanBoardModel = model;
             _navigationStore = navigation;
@@ -106,7 +113,6 @@ namespace TabulaDevApp.MVVM.ViewModels
             TextBox TitleColumn = new TextBox();
             Button ButtonNewCard = new Button();
             Canvas stackPanel = new Canvas();
-
 
             // Style Column
             newColumn.BorderThickness = new Thickness(0);
@@ -166,12 +172,26 @@ namespace TabulaDevApp.MVVM.ViewModels
             stackPanel.Drop += Column_Drop;
             stackPanel.DragOver += Column_DragOver;
             stackPanel.DragLeave += Column_DragLeave;
-            //stackPanel.DragEnter += Column_DragEnter;
+            stackPanel.DragEnter += Column_DragEnter;
 
+            
             double countHeight = 50;
+            if (_dragAndDropStoreCardIndex == 0 && kanbanBoardModel.Lists[indexColumn].Cards.Count == 0 &&
+                _dragAndDropStoreColumnIndex == indexColumn)
+            {
+                Border emptyCard = CreateUIEmptyCard();
+                Canvas.SetLeft(emptyCard, 5);
+                Canvas.SetTop(emptyCard, countHeight);
+                stackPanel.Children.Add(emptyCard);
+                countHeight += 115;
+
+                _dragAndDropStoreCardIndex = -1;
+                _dragAndDropStoreColumnIndex = -1;
+            }
+
             for (int i = 0; i < kanbanBoardModel.Lists[indexColumn].Cards.Count; i++)
-            { 
-                if(_dragAndDropStoreCardIndex != -1 && _dragAndDropStoreColumnIndex != -1)
+            {
+                if (_dragAndDropStoreCardIndex != -1 && _dragAndDropStoreColumnIndex != -1)
                 {
                     if (_dragAndDropStoreCardIndex >= kanbanBoardModel.Lists[indexColumn].Cards.Count &&
                         _dragAndDropStoreColumnIndex == indexColumn &&
@@ -190,10 +210,10 @@ namespace TabulaDevApp.MVVM.ViewModels
                         Canvas.SetTop(emptyCard, countHeight);
                         stackPanel.Children.Add(emptyCard);
                         countHeight += 115;
-                        _dragAndDropStoreCardIndex = -1;
-                        _dragAndDropStoreColumnIndex = -1;
+                        //_dragAndDropStoreCardIndex = -1;
+                        //_dragAndDropStoreColumnIndex = -1;
                         continue;
-                    }
+                    } 
                     else if (_dragAndDropStoreCardIndex == i && _dragAndDropStoreColumnIndex == indexColumn)
                     {
                         Border emptyCard = CreateUIEmptyCard();
@@ -201,8 +221,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                         Canvas.SetTop(emptyCard, countHeight);
                         stackPanel.Children.Add(emptyCard);
                         countHeight += 115;
-                        _dragAndDropStoreCardIndex = -1;
-                        _dragAndDropStoreColumnIndex = -1;
+                        //_dragAndDropStoreCardIndex = -1;
+                        //_dragAndDropStoreColumnIndex = -1;
                     }
                     
                 }
@@ -244,6 +264,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             SolidColorBrush background = new SolidColorBrush { Color = Color.FromRgb(47, 48, 55) };
             SolidColorBrush backgroundTitle = new SolidColorBrush { Color = Color.FromRgb(28, 28, 33) };
 
+            // Init normal view
             Border newCard = new Border();
             Border titleCard = new Border();
             Border rectUnder = new Border();
@@ -301,8 +322,17 @@ namespace TabulaDevApp.MVVM.ViewModels
             newPanel.Children.Add(titleGrid);
             newPanel.Children.Add(textBlockTitle);
             newPanel.Children.Add(textDescription);
-            newCard.Child = newPanel;
+            
+            if (card.isDrag)
+            {
+                newCard.Opacity = 0.5;
+            } 
+            else
+            {
+                newCard.Opacity = 1;
+            }
 
+            newCard.Child = newPanel;
             return newCard;
         }
 
@@ -376,9 +406,9 @@ namespace TabulaDevApp.MVVM.ViewModels
             _dragAndDropCurrentCard = kanbanBoardModel.Lists[columnIndex].Cards[cardIndex];
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                //card.IsHitTestVisible = false;
+                card.IsHitTestVisible = false;
                 DragDrop.DoDragDrop(card, new DataObject(DataFormats.Serializable, card), DragDropEffects.Move);
-                //card.IsHitTestVisible = true;
+                card.IsHitTestVisible = true;
             }
         }
 
@@ -386,6 +416,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         private void Column_Drop(object sender, DragEventArgs e)
         {
             Canvas column = (Canvas)sender;
+            column.Children.Remove(_dragAndDropEmptyCard);
             string[] arrayWordsButton = column.Name.Split(new char[] { '_' });
             int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
 
@@ -404,6 +435,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
                 kanbanBoardModel.Lists[columnIndexOldCard].Cards.RemoveAt(cardIndexOldCard);
 
+                _dragAndDropCurrentCard.isDrag = false;
                 if (cardIndex >= kanbanBoardModel.Lists[columnIndex].Cards.Count)
                 {
                     kanbanBoardModel.Lists[columnIndex].Cards.Add(_dragAndDropCurrentCard);
@@ -412,11 +444,15 @@ namespace TabulaDevApp.MVVM.ViewModels
                 {
                     kanbanBoardModel.Lists[columnIndex].Cards.Insert(cardIndex, _dragAndDropCurrentCard);
                 }
-            
+
+                _dragAndDropStoreCardIndex = -1;
+                _dragAndDropStoreColumnIndex = -1;
                 _dragAndDropCurrentCard = null;
+
                 UpdateStackPanel();
             }
         }
+
 
         // Event - Card drag and move
         private void Column_DragOver(object sender, DragEventArgs e)
@@ -424,17 +460,24 @@ namespace TabulaDevApp.MVVM.ViewModels
             Canvas column = (Canvas)sender;
             object data = e.Data.GetData(DataFormats.Serializable);
 
+            _dragAndDropCurrentCard.isDrag = true;
             Console.WriteLine(column.Name);
             if (data is UIElement element)
             { 
                 Point dropPosition = e.GetPosition(column);
                 Canvas.SetLeft(element, dropPosition.X);
                 Canvas.SetTop(element, dropPosition.Y);
-
-                if (!column.Children.Contains(element))
+                try
                 {
-                    Column_DragLeave(sender, e);
-                    column.Children.Add(element);
+                    if (!column.Children.Contains(element))
+                    {
+                        Column_DragLeave(sender, e);
+                        column.Children.Add(element);
+                    }
+                }
+                catch (Exception)
+                {
+
                 }
             }
         }
@@ -482,12 +525,99 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             if (data is UIElement element)
             {
-                // Preview enter
                 Point dropPosition = e.GetPosition(column);
-                _dragAndDropStoreCardIndex = Find_CardIndex(columnIndex, dropPosition.Y);
-                _dragAndDropStoreColumnIndex = columnIndex;
+                if (dropPosition.X >= 210.0 || dropPosition.X <= 15.0 ||
+                    dropPosition.Y >= column.Height - 10 || dropPosition.Y <= 5.0)
+                {
+                    _dragAndDropStoreCardIndex = -1;
+                    _dragAndDropStoreColumnIndex = -1;
+                    _dragAndDropCurrentCard.isDrag = false;
+                    UpdateStackPanel();
+                }
+                else
+                {
+                    _dragAndDropStoreCardIndex = Find_CardIndex(columnIndex, dropPosition.Y);
+                    _dragAndDropStoreColumnIndex = columnIndex;
+                    _dragAndDropCurrentCard.isDrag = true;
+                    UpdateStackPanel();
+                }
+                // Preview enter
+                //if (_dragOverColumnStore == -1)
+                //{
+                //    _dragOverColumnStore = columnIndex;
+                //    _dragOverPreviesColumn = column;
+                //}
+                //else
+                //{
+                //    if (columnIndex == _dragOverColumnStore)
+                //    {
+                //        _dragOverIsEmpty = true;
+                //        column.Children.Remove(_dragAndDropEmptyCard);
+                //    }
+                //    else
+                //    {
+                //        _dragOverColumnStore = columnIndex;
+                //        _dragOverPreviesColumn.Children.Remove(_dragAndDropEmptyCard);
+                //        _dragOverPreviesColumn.UpdateLayout();
+                //        _dragOverPreviesColumn = column;
+                //    }
+                //}
 
-                UpdateStackPanel();
+
+                //if (_dragOverIsEmpty)
+                //{
+                //    ObservableCollection<UIElement> itemsList = new ObservableCollection<UIElement>();
+                //    foreach (UIElement card in column.Children)
+                //    {
+                //        itemsList.Add(card);
+                //    }
+
+                //    column.Children.Clear();
+                //    try
+                //    {
+                //        Canvas.SetLeft(itemsList[0], 0);
+                //        Canvas.SetTop(itemsList[0], 0);
+                //        column.Children.Add(itemsList[0]);
+                //        double yPosition = 50;
+                //        for (int i = 1; i < itemsList.Count - 1; i++)
+                //        {
+                //            if (dropPosition.Y > column.Height && i == itemsList.Count - 2)
+                //            {
+                //                Canvas.SetLeft(_dragAndDropEmptyCard, 5);
+                //                Canvas.SetTop(_dragAndDropEmptyCard, yPosition);
+                //                if (!column.Children.Contains(_dragAndDropEmptyCard))
+                //                {
+                //                    column.Children.Add(_dragAndDropEmptyCard);
+                //                }
+                //                yPosition += 115;
+                //            }
+                //            else if (dropPosition.Y >= yPosition && dropPosition.Y <= (yPosition + 115))
+                //            {
+                //                Canvas.SetLeft(_dragAndDropEmptyCard, 5);
+                //                Canvas.SetTop(_dragAndDropEmptyCard, yPosition);
+                //                if (!column.Children.Contains(_dragAndDropEmptyCard))
+                //                {
+                //                    column.Children.Add(_dragAndDropEmptyCard);
+                //                }
+                //                yPosition += 115;
+                //            }
+                //            Canvas.SetLeft(itemsList[i], 0);
+                //            Canvas.SetTop(itemsList[i], yPosition);
+                //            column.Children.Add(itemsList[i]);
+
+                //            yPosition += 115;
+                //        }
+                //        Canvas.SetLeft(itemsList[itemsList.Count - 1], 0);
+                //        Canvas.SetTop(itemsList[itemsList.Count - 1], yPosition);
+                //        column.Children.Add(itemsList[itemsList.Count - 1]);
+                //    }
+                //    catch (Exception)
+                //    {
+                //        //UpdateStackPanel();
+                //    }
+                //}
+                //_dragOverIsEmpty = false;
+                //OnPropertyChanged("CurrentStackPanel");
             }
         }
     }
