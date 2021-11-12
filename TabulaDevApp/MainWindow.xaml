@@ -14,12 +14,12 @@
         Background="Transparent"
         AllowsTransparency="True" 
         ResizeMode="CanResizeWithGrip"
-        UseLayoutRounding="True">
+        UseLayoutRounding="True"
+        >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         
-
         <DataTemplate DataType="{x:Type viewModel:PreviewViewModel}">
             <view:PreviewView/>
         </DataTemplate>
@@ -39,6 +39,15 @@
         <DataTemplate DataType="{x:Type viewModel:UpperViewModel}">
             <view:UpperView/>
         </DataTemplate>
+
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome NonClientFrameEdges="None" CornerRadius="0" 
+                          ResizeBorderThickness="5" CaptionHeight="30"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Border Style="{StaticResource BackgroundBorder}">
@@ -73,7 +82,7 @@
                               Click="Button_Click"
                               Width="50"/>
                 <ToggleButton Style="{StaticResource ControlFullscreenButtonStyle}"
-                              Width="50"/>
+                              Width="50" Click="ToggleButton_Clicked"/>
                 <ToggleButton Style="{StaticResource ControlExitButtonStyle}"
                         Click="Button_Click_1" 
                               Width="50"/>
@@ -94,7 +103,7 @@
                         Name="Preview"
                         FontSize="18"
                         FontWeight="Medium"
-                        Foreground="Black"
+                        Foreground="#FFF4F5F5"
                         Cursor="Hand"
                         Style="{StaticResource PreviewNavigationButtonStyle}"
                         Command="{Binding NavigatePreviewCommand}"/>
@@ -105,12 +114,12 @@
                         FontSize="18"
                         TextAlignment="Center"
                         FontWeight="Medium"
-                        Foreground="Black"/>
+                        Foreground="#FFF4F5F5"/>
                 <Button Content="Авторизация"
                         Name="Authorization"
                         FontSize="18"
                         FontWeight="Medium"
-                        Foreground="Black"
+                        Foreground="#FFF4F5F5"
                         Cursor="Hand"
                         Style="{StaticResource PreviewNavigationButtonStyle}"
                         Command="{Binding NavigateAuthorizationCommand}"/>

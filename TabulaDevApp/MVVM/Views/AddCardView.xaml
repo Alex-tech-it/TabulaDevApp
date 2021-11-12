@@ -8,31 +8,52 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style TargetType="Image">
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+        </Style>
     </UserControl.Resources>
     
     <Grid>
         <Border Background="Black" Opacity="0.6" Margin="0 -5 0 0"/>
 
-        <Border Background="White" Width="400" Height="450"
+        <Border Background="#FF393A41" Width="400" Height="450"
                 CornerRadius="20">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Заголовок карточки"
-                           FontSize="18"
-                           Margin="0 0 0 10"/>
+                <TextBlock FontSize="18"
+                           Margin="0 0 0 10" 
+                           Foreground="#FFF4F5F5"
+                           FontWeight="Medium">
+                    <InlineUIContainer>
+                        <Image Source="/TabulaDevApp;component/Images/CardNameIcon.png" 
+                               Height="16"/>
+                    </InlineUIContainer>
+                    <Run>Заголовок карточки</Run>
+                </TextBlock>
                 <TextBox Text="{Binding CardModel.Title}"
                          FontSize="14"
                          TextWrapping="NoWrap"
                          MaxWidth="330"
-                         Style="{StaticResource AddCardTextBoxStyle}"/>
-                <Border Height="1" Background="Gray"/>
+                         Style="{StaticResource AddCardTextBoxStyle}" 
+                         Foreground="#FFF4F5F5" 
+                         CaretBrush="#FFF4F5F5" 
+                         Padding="4"/>
+                <!--<Border Height="1" Background="Gray"/>-->
                 <TextBlock Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Margin="5 2 0 0"
-                           Foreground="Red"
+                           Foreground="#FFF10D0D"
                            Text="Необходимо заполнить заголовок"
                            FontSize="12"/>
-                <TextBlock Text="Описание"
+                <TextBlock 
                            FontSize="18"
-                           Margin="0 20 0 10"/>
+                           Margin="0 20 0 10" 
+                           Foreground="#FFF4F5F5" 
+                           FontWeight="Medium">
+                    <InlineUIContainer>
+                        <Image Source="/TabulaDevApp;component/Images/DescriptionIcon.png" 
+                               Height="16"/>
+                    </InlineUIContainer>
+                    <Run>Описание</Run>
+                </TextBlock>
                 <TextBox Text="{Binding CardModel.Description}"
                          FontSize="14"
                          AcceptsReturn="True"
@@ -40,32 +61,42 @@
                          MaxWidth="330"
                          MinHeight="150"
                          MaxHeight="200"
-                         Style="{StaticResource AddCardTextBoxStyle}"/>
-                <Border Height="1" Background="Gray"/>
-                
-                <TextBlock Text="Исполнители"
-                           FontSize="18"
-                           Margin="0 20 0 0"/>
+                         Style="{StaticResource AddCardTextBoxStyle}" 
+                         Foreground="#FFF4F5F5" 
+                         CaretBrush="#FFF4F5F5" Padding="4"/>
+                <!--<Border Height="1" Background="Gray"/>-->
+
+                <TextBlock FontSize="18"
+                           Margin="0 20 0 0" 
+                           Foreground="#FFF4F5F5"
+                           FontWeight="Medium">
+                    <InlineUIContainer>
+                        <Image Source="/TabulaDevApp;component/Images/UserAddIcon.png" 
+                               Height="16"/>
+                    </InlineUIContainer>
+                    <Run>Исполнители</Run>
+                </TextBlock>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                             Margin="0 30 0 0">
                     <Button Content="Сохранить"
                         Width="160"
                         Height="35"
                         FontSize="16"
-                        Background="Black"
+                        Background="#FF555562"
                         Margin="0 0 5 0"
                         TextBlock.Foreground="White"
                         Style="{StaticResource ButtonStyle}"
-                        Command="{Binding NavigateSaveCardCommand}"/>
+                        Command="{Binding NavigateSaveCardCommand}" 
+                            FontWeight="Medium"/>
                     <Button Content="Отмена"
                         Width="160"
                         Height="35"
                         FontSize="16"
                         Margin="5 0 0 0"
-                        Background="Black"
+                        Background="#FF555562"
                         TextBlock.Foreground="White"
                         Style="{StaticResource ButtonStyle}"
-                        Command="{Binding NavigateExitCardCommand}"/>
+                        Command="{Binding NavigateExitCardCommand}" FontWeight="Medium"/>
                 </StackPanel>
             </StackPanel>
         </Border>

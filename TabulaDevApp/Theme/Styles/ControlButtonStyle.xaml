@@ -15,7 +15,7 @@
                             <WrapPanel VerticalAlignment="Center"
                                    HorizontalAlignment="Center">
                                 <Image Source="/TabulaDevApp;component/Images/CrossIcon.png" RenderOptions.BitmapScalingMode="HighQuality"
-                                   Height="13"/>
+                                   Height="12"/>
                             </WrapPanel>
                         </Border>
 
@@ -33,7 +33,19 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Background="#D8B02B2B">
-                                <Image Source="/TabulaDevApp;component/Images/CrossIcon.png" Height="13" VerticalAlignment="Center"/>
+                                <Image Source="/TabulaDevApp;component/Images/CrossIcon.png" Height="12" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="#D8892020">
+                                <Image Source="/TabulaDevApp;component/Images/CrossIcon.png" Height="12" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -55,7 +67,7 @@
                             <WrapPanel VerticalAlignment="Center"
                                    HorizontalAlignment="Center">
                                 <Image Source="/TabulaDevApp;component/Images/square.png"  RenderOptions.BitmapScalingMode="HighQuality"
-                                   Height="13"/>
+                                   Height="12"/>
                             </WrapPanel>
                         </Border>
 
@@ -74,7 +86,19 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Background="#3FC0C1C4">
-                                <Image Source="/TabulaDevApp;component/Images/square.png" Height="13" VerticalAlignment="Center"/>
+                                <Image Source="/TabulaDevApp;component/Images/square.png" Height="12" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="#26A0A0A0">
+                                <Image Source="/TabulaDevApp;component/Images/square.png" Height="12" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -95,7 +119,7 @@
                             <WrapPanel VerticalAlignment="Center"
                                    HorizontalAlignment="Center">
                                 <Image Source="/TabulaDevApp;component/Images/LineIcon.png" 
-                                   Height="13"/>
+                                   Height="12"/>
                             </WrapPanel>
                         </Border>
 
@@ -114,7 +138,19 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Background="#3FC0C1C4">
-                                <Image Source="/TabulaDevApp;component/Images/LineIcon.png" Height="13" VerticalAlignment="Center"/>
+                                <Image Source="/TabulaDevApp;component/Images/LineIcon.png" Height="12" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="#26A0A0A0">
+                                <Image Source="/TabulaDevApp;component/Images/LineIcon.png" Height="12" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>

@@ -340,6 +340,24 @@
   <ItemGroup>
     <Resource Include="Images\square.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DescriptionIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CardNameIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UserAddIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PaleCrossIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MarkIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

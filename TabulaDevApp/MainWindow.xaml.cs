@@ -39,5 +39,17 @@ namespace TabulaDevApp
                 Application.Current.Shutdown();
             }
         }
+
+        private void ToggleButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow.WindowState == WindowState.Normal)
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            }
+        }
     }
 }
