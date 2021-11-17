@@ -7,6 +7,7 @@ namespace TabulaDevApp.MVVM.Models
     public class Card : ObservableObject
     {
         private string _title;
+        private ObservableCollection<LabelData> _cardLabelList;
 
         public bool isDrag;
         public string id;
@@ -19,7 +20,16 @@ namespace TabulaDevApp.MVVM.Models
             } 
         }
         public string Description { get; set; }
-        public ArrayList Tags { get; set; }
+
+        public ObservableCollection<LabelData> CardLabelList
+        {
+            get => _cardLabelList;
+            set
+            {
+                _cardLabelList = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<Participant> Participants { get; set; }
 
         public Card()
@@ -27,6 +37,7 @@ namespace TabulaDevApp.MVVM.Models
             Title = "Заголовок карточки";
             Description = "Описание карточки";
             isDrag = false;
+            CardLabelList = new ObservableCollection<LabelData>();
         }
     }
 }

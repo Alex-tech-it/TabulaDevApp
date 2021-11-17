@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using TabulaDevApp.Core.Commands;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
 
@@ -20,11 +21,11 @@ namespace TabulaDevApp.MVVM.ViewModels
         private KanbanBoardModel _kanbanBoardModel;         // Model contains structure of tabel
         private Card _dragAndDropCurrentCard;
         private Border _dragAndDropEmptyCard;
-        private Canvas _dragOverPreviesColumn;
-        private bool _dragOverIsEmpty;
-        private int _dragOverColumnStore;
         private int _dragAndDropStoreCardIndex;
         private int _dragAndDropStoreColumnIndex;
+
+        public RelayCommand NavigateSettingsBoardCommand { get; set; }
+        public RelayCommand NavigateMembersBoardCommand { get; set; }
 
         // Gettter & Setter
         public StackPanel CurrentStackPanel
@@ -51,17 +52,26 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             
         }
-        public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model)
+        public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model, 
+            ObservableCollection<KanbanBoardModel> listBoards = null, NavigationStore upperNavigation = null)
         {
             _dragAndDropStoreCardIndex = -1;
             _dragAndDropStoreColumnIndex = -1;
-            _dragOverColumnStore = -1;
             _dragAndDropEmptyCard = CreateUIEmptyCard();
-            _dragOverIsEmpty = true;
 
             kanbanBoardModel = model;
             _navigationStore = navigation;
 
+            NavigateSettingsBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, listBoards, upperNavigation);
+            });
+            NavigateMembersBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel();
+            });
             StartUpGrid();
             UpdateStackPanel();
         }
@@ -263,17 +273,36 @@ namespace TabulaDevApp.MVVM.ViewModels
             SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
             SolidColorBrush background = new SolidColorBrush { Color = Color.FromRgb(47, 48, 55) };
             SolidColorBrush backgroundTitle = new SolidColorBrush { Color = Color.FromRgb(28, 28, 33) };
-
+            
             // Init normal view
             Border newCard = new Border();
             Border titleCard = new Border();
             Border rectUnder = new Border();
 
+            // Init labels variables
+            StackPanel labelsPanel = new StackPanel();
+            labelsPanel.Margin = new Thickness(5, 5, 5, 2);
+            labelsPanel.Orientation = Orientation.Horizontal;
+            labelsPanel.HorizontalAlignment = HorizontalAlignment.Left;
+
+            // Layouts
             StackPanel newPanel = new StackPanel();
             Grid titleGrid = new Grid();
 
+            // Card content
             TextBlock textBlockTitle = new TextBlock();
             TextBlock textDescription = new TextBlock();
+
+            // Open card view Button
+            Button openViewCard = new Button();
+            openViewCard.Name = "Card_" + card.id;
+            openViewCard.Width = 10;
+            openViewCard.Height = 10;
+            openViewCard.Click += OnClickCard;
+            openViewCard.HorizontalAlignment = HorizontalAlignment.Right;
+            openViewCard.VerticalAlignment = VerticalAlignment.Top;
+            openViewCard.Margin = new Thickness(0, 5, 5, 0);
+            openViewCard.Style = Application.Current.Resources["OpenCardViewButtonStyle"] as Style;
 
             newPanel.Orientation = Orientation.Vertical;
 
@@ -283,8 +312,6 @@ namespace TabulaDevApp.MVVM.ViewModels
             newCard.Width = 215;
             newCard.Height = 105;
             newCard.Name = "Card_" + card.id;
-            //newCard.MouseDown += OnClickCard;
-            //newCard.MouseLeftButtonDown += OnClickCard;
             newCard.MouseMove += Card_MouseMove;
 
             rectUnder.Background = backgroundTitle;
@@ -300,9 +327,9 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             textBlockTitle.FontSize = 14;
             textBlockTitle.TextWrapping = TextWrapping.Wrap;
-            textBlockTitle.MaxHeight = 45;
+            textBlockTitle.MaxHeight = 25;
             textBlockTitle.Foreground = foreground;
-            textBlockTitle.Margin = new Thickness(5, 3, 5, 3);
+            textBlockTitle.Margin = new Thickness(5, 2, 5, 3);
             textBlockTitle.Text = card.Title;
             textBlockTitle.HorizontalAlignment = HorizontalAlignment.Left;
             textBlockTitle.TextTrimming = TextTrimming.WordEllipsis;
@@ -311,15 +338,37 @@ namespace TabulaDevApp.MVVM.ViewModels
             textDescription.TextWrapping = TextWrapping.Wrap;
             textDescription.MaxHeight = 40;
             textDescription.Foreground = Brushes.Gray;
-            textDescription.Margin = new Thickness(5, 5, 5, 3);
+            textDescription.Margin = new Thickness(5, 3, 5, 3);
             textDescription.Text = card.Description;
             textDescription.HorizontalAlignment = HorizontalAlignment.Left;
             textDescription.TextTrimming = TextTrimming.WordEllipsis;
 
+
+            // Put data in labels variables
+            foreach (LabelData label in card.CardLabelList)
+            {
+                Button borderLabel = new Button();
+
+                borderLabel.Content = label.Description;
+                borderLabel.Width = 40;
+                borderLabel.Height = 15;
+                borderLabel.FontSize = 12;
+                borderLabel.FontWeight = FontWeights.Medium;
+                borderLabel.Foreground = foreground;
+                borderLabel.Margin = new Thickness(0, 0, 3, 0);
+                borderLabel.Background = label.Color;
+                borderLabel.Style = Application.Current.Resources["LabelStyleView"] as Style;
+
+                labelsPanel.Children.Add(borderLabel);
+            }
+
+            // Layouts adding
             titleGrid.Children.Add(titleCard);
             titleGrid.Children.Add(rectUnder);
+            titleGrid.Children.Add(openViewCard);
 
             newPanel.Children.Add(titleGrid);
+            newPanel.Children.Add(labelsPanel);
             newPanel.Children.Add(textBlockTitle);
             newPanel.Children.Add(textDescription);
             
@@ -370,14 +419,12 @@ namespace TabulaDevApp.MVVM.ViewModels
         }
 
         // Click on card, navigate to Card View
-        private void OnClickCard(object sender, MouseButtonEventArgs e)
+        private void OnClickCard(object sender, RoutedEventArgs e)
         {
-            Border card = (Border)sender;
+            Button card = (Button)sender;
             string[] arrayWordsButton = card.Name.Split(new char[] { '_' });
             int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
             int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
-
-            Console.WriteLine(kanbanBoardModel.Lists[columnIndex].Cards[cardIndex].Title);
             _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex);
         }
 
@@ -541,83 +588,6 @@ namespace TabulaDevApp.MVVM.ViewModels
                     _dragAndDropCurrentCard.isDrag = true;
                     UpdateStackPanel();
                 }
-                // Preview enter
-                //if (_dragOverColumnStore == -1)
-                //{
-                //    _dragOverColumnStore = columnIndex;
-                //    _dragOverPreviesColumn = column;
-                //}
-                //else
-                //{
-                //    if (columnIndex == _dragOverColumnStore)
-                //    {
-                //        _dragOverIsEmpty = true;
-                //        column.Children.Remove(_dragAndDropEmptyCard);
-                //    }
-                //    else
-                //    {
-                //        _dragOverColumnStore = columnIndex;
-                //        _dragOverPreviesColumn.Children.Remove(_dragAndDropEmptyCard);
-                //        _dragOverPreviesColumn.UpdateLayout();
-                //        _dragOverPreviesColumn = column;
-                //    }
-                //}
-
-
-                //if (_dragOverIsEmpty)
-                //{
-                //    ObservableCollection<UIElement> itemsList = new ObservableCollection<UIElement>();
-                //    foreach (UIElement card in column.Children)
-                //    {
-                //        itemsList.Add(card);
-                //    }
-
-                //    column.Children.Clear();
-                //    try
-                //    {
-                //        Canvas.SetLeft(itemsList[0], 0);
-                //        Canvas.SetTop(itemsList[0], 0);
-                //        column.Children.Add(itemsList[0]);
-                //        double yPosition = 50;
-                //        for (int i = 1; i < itemsList.Count - 1; i++)
-                //        {
-                //            if (dropPosition.Y > column.Height && i == itemsList.Count - 2)
-                //            {
-                //                Canvas.SetLeft(_dragAndDropEmptyCard, 5);
-                //                Canvas.SetTop(_dragAndDropEmptyCard, yPosition);
-                //                if (!column.Children.Contains(_dragAndDropEmptyCard))
-                //                {
-                //                    column.Children.Add(_dragAndDropEmptyCard);
-                //                }
-                //                yPosition += 115;
-                //            }
-                //            else if (dropPosition.Y >= yPosition && dropPosition.Y <= (yPosition + 115))
-                //            {
-                //                Canvas.SetLeft(_dragAndDropEmptyCard, 5);
-                //                Canvas.SetTop(_dragAndDropEmptyCard, yPosition);
-                //                if (!column.Children.Contains(_dragAndDropEmptyCard))
-                //                {
-                //                    column.Children.Add(_dragAndDropEmptyCard);
-                //                }
-                //                yPosition += 115;
-                //            }
-                //            Canvas.SetLeft(itemsList[i], 0);
-                //            Canvas.SetTop(itemsList[i], yPosition);
-                //            column.Children.Add(itemsList[i]);
-
-                //            yPosition += 115;
-                //        }
-                //        Canvas.SetLeft(itemsList[itemsList.Count - 1], 0);
-                //        Canvas.SetTop(itemsList[itemsList.Count - 1], yPosition);
-                //        column.Children.Add(itemsList[itemsList.Count - 1]);
-                //    }
-                //    catch (Exception)
-                //    {
-                //        //UpdateStackPanel();
-                //    }
-                //}
-                //_dragOverIsEmpty = false;
-                //OnPropertyChanged("CurrentStackPanel");
             }
         }
     }

@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace TabulaDevApp.MVVM.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AddCardView.xaml
+    /// Логика взаимодействия для KanbanBoardSettingsView.xaml
     /// </summary>
-    public partial class AddCardView : UserControl
+    public partial class KanbanBoardSettingsView : UserControl
     {
         Point scrollMousePoint = new Point();
         double hOff = 1;
-        public AddCardView()
+        public KanbanBoardSettingsView()
         {
             InitializeComponent();
         }

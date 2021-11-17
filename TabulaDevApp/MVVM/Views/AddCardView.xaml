@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="660" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style TargetType="Image">
@@ -16,7 +16,7 @@
     <Grid>
         <Border Background="Black" Opacity="0.6" Margin="0 -5 0 0"/>
 
-        <Border Background="#FF393A41" Width="400" Height="450"
+        <Border Background="#FF393A41" Width="400" Height="570"
                 CornerRadius="20">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock FontSize="18"
@@ -43,9 +43,32 @@
                            Foreground="#FFF10D0D"
                            Text="Необходимо заполнить заголовок"
                            FontSize="12"/>
-                <TextBlock 
-                           FontSize="18"
-                           Margin="0 20 0 10" 
+                <TextBlock FontSize="18"
+                       Margin="0 20 0 5" 
+                       Foreground="#FFF4F5F5"
+                       FontWeight="Medium">
+                       <InlineUIContainer>
+                           <Image Source="/TabulaDevApp;component/Images/MarkIcon.png" 
+                                   Height="16"/>
+                       </InlineUIContainer>
+                       <Run>Метки</Run>
+                </TextBlock>
+                <ScrollViewer x:Name="scrollViewer"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Hidden"
+                          Width="330"
+                          ScrollViewer.PreviewMouseLeftButtonDown="scrollViewer_PreviewMouseLeftButtonDown"
+                          ScrollViewer.PreviewMouseMove="scrollViewer_PreviewMouseMove"
+                          ScrollViewer.PreviewMouseLeftButtonUp="scrollViewer_PreviewMouseLeftButtonUp"
+                          ScrollViewer.PreviewMouseWheel="scrollViewer_PreviewMouseWheel">
+                    <ContentControl Height="30"
+                            Content="{Binding LabelList}"/>
+                </ScrollViewer>
+                <StackPanel>
+                    <ContentControl Content="{Binding AddNewLabel}"/>
+                </StackPanel>
+                <TextBlock FontSize="18"
+                           Margin="0 10 0 10" 
                            Foreground="#FFF4F5F5" 
                            FontWeight="Medium">
                     <InlineUIContainer>

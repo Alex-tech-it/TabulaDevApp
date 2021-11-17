@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using TabulaDevApp.Core.Servies;
 
 namespace TabulaDevApp.MVVM.Models
@@ -7,6 +8,7 @@ namespace TabulaDevApp.MVVM.Models
     {
         private string _titleBoard;
         private ObservableCollection<ColumnData> _lists;
+        private ObservableCollection<LabelData> _labelList;
         public int countColumn { get; set; }
         public string UniqueId { get; set; }
         public string TitleBoard {
@@ -26,10 +28,22 @@ namespace TabulaDevApp.MVVM.Models
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<LabelData> LabelList
+        {
+            get => _labelList;
+            set
+            {
+                _labelList = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public KanbanBoardModel()
         {
             TitleBoard = "Новая доска";
             Lists = new ObservableCollection<ColumnData>();
+            LabelList = new ObservableCollection<LabelData>();
         }
     }
 }

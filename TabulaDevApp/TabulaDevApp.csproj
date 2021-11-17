@@ -120,6 +120,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\Views\KanbanBoardManageMembersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\KanbanBoardSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\KanbanBoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +196,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\Styles\LabelStyleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Styles\OpenCardViewButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\Styles\PasswordBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,6 +222,7 @@
     <Compile Include="MVVM\Models\Card.cs" />
     <Compile Include="MVVM\Models\ColumnData.cs" />
     <Compile Include="MVVM\Models\KanbanBoardModel.cs" />
+    <Compile Include="MVVM\Models\LabelData.cs" />
     <Compile Include="MVVM\Models\Participant.cs" />
     <Compile Include="MVVM\Models\RegistrationModel.cs" />
     <Compile Include="MVVM\Models\DragAndDropUIList.cs" />
@@ -215,6 +232,8 @@
     <Compile Include="MVVM\ViewModels\CommunityViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CreatKanbanBoardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HomeViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\KanbanBoardManageMembersViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\KanbanBoardSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\KanbanBoardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainViewModel.cs" />
@@ -241,6 +260,12 @@
     </Compile>
     <Compile Include="MVVM\Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\KanbanBoardManageMembersView.xaml.cs">
+      <DependentUpon>KanbanBoardManageMembersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\KanbanBoardSettingsView.xaml.cs">
+      <DependentUpon>KanbanBoardSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Views\KanbanBoardView.xaml.cs">
       <DependentUpon>KanbanBoardView.xaml</DependentUpon>
