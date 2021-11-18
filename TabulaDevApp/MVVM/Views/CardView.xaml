@@ -77,8 +77,20 @@
                                        </InlineUIContainer>
                                        <Run>Метки</Run>
                             </TextBlock>
-                            <ContentControl Height="30"
-                                Content=""/>
+                            <ScrollViewer x:Name="scrollViewer"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          Width="405"
+                                          ScrollViewer.PreviewMouseLeftButtonDown="scrollViewer_PreviewMouseLeftButtonDown"
+                                          ScrollViewer.PreviewMouseMove="scrollViewer_PreviewMouseMove"
+                                          ScrollViewer.PreviewMouseLeftButtonUp="scrollViewer_PreviewMouseLeftButtonUp"
+                                          ScrollViewer.PreviewMouseWheel="scrollViewer_PreviewMouseWheel">
+                                <ContentControl Height="30"
+                                          Content="{Binding LabelList}"/>
+                            </ScrollViewer>
+                            <StackPanel HorizontalAlignment="Left">
+                                <ContentControl Content="{Binding AddNewLabel}"/>
+                            </StackPanel>
                             <TextBlock FontSize="18"
                                        Margin="0 20 0 10" 
                                        Foreground="#FFF4F5F5"

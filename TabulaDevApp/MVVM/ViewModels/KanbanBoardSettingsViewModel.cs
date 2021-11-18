@@ -147,6 +147,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                 Button borderLabel = new Button();
                 SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
 
+
                 borderLabel.Content = label.Description;
                 borderLabel.Width = 60;
                 borderLabel.Height = 25;
@@ -386,7 +387,20 @@ namespace TabulaDevApp.MVVM.ViewModels
             LabelData newLabel = new LabelData();
             newLabel.Color = _storeColor;
             newLabel.Description = NameNewLabel;
-            kanbanBoardModel.LabelList.Add(newLabel);
+
+            bool focuseFlag = true;
+            foreach(LabelData item in kanbanBoardModel.LabelList)
+            {
+                if(item.Color == newLabel.Color && item.Description == newLabel.Description)
+                {
+                    focuseFlag = false;
+                }
+            }
+
+            if (focuseFlag)
+            {
+                kanbanBoardModel.LabelList.Add(newLabel);
+            }
 
             StackPanel newPanel = new StackPanel();
             newPanel.Children.Add(CreateDefButton());

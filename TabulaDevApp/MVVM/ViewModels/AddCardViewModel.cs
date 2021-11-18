@@ -201,10 +201,10 @@ namespace TabulaDevApp.MVVM.ViewModels
             }
 
             Button creatSaveLabel = new Button();
-            SolidColorBrush background_save = new SolidColorBrush { Color = Color.FromRgb(61, 0, 123) };
+            SolidColorBrush background_save = new SolidColorBrush { Color = Color.FromRgb(85, 85, 98) };
             creatSaveLabel.Content = "Окей";
-            creatSaveLabel.Width = 50;
-            creatSaveLabel.Height = 20;
+            creatSaveLabel.Width = 60;
+            creatSaveLabel.Height = 25;
             creatSaveLabel.FontSize = 13;
             creatSaveLabel.FontWeight = FontWeights.Medium;
             creatSaveLabel.Foreground = foreground;
@@ -236,7 +236,22 @@ namespace TabulaDevApp.MVVM.ViewModels
             Button label = (Button)sender;
             string[] arrayWordsButton = label.Name.Split(new char[] { '_' });
             int labelIndex = Convert.ToInt32(arrayWordsButton[1]);
-            _labelCollection.Add(kanbanBoardModel.LabelList[labelIndex]);
+
+            bool focuseFlag = true;
+            foreach (LabelData item in _labelCollection)
+            {
+                if (item.Color == kanbanBoardModel.LabelList[labelIndex].Color && item.Description == kanbanBoardModel.LabelList[labelIndex].Description)
+                {
+                    focuseFlag = false;
+                }
+            }
+
+            if (focuseFlag)
+            {
+                _labelCollection.Add(kanbanBoardModel.LabelList[labelIndex]);
+            }
+
+            
             LabelList = UpdateLabelList();
         }
     }
