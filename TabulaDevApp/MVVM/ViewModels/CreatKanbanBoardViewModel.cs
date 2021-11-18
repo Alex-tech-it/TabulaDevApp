@@ -50,7 +50,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                     newModel.TitleBoard = TitleBoard;
                     listBoards.Add(newModel);
                     navigation.UpperViewModel = null;
-                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, newModel);
+                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, newModel, listBoards, upperNavigation);
                     upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, listBoards, navigation);
 
                 } else

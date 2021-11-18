@@ -47,6 +47,14 @@
         <DataTemplate DataType="{x:Type viewModel:CardViewModel}">
             <view:CardView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:KanbanBoardSettingsViewModel}">
+            <view:KanbanBoardSettingsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:KanbanBoardManageMembersViewModel}">
+            <view:KanbanBoardManageMembersView/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Border Style="{StaticResource BackgroundBorder}">

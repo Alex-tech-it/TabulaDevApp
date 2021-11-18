@@ -12,7 +12,7 @@
 
     <Grid>
         <Border Background="Black" Opacity="0.6" Margin="0 -5 0 0"/>
-        <Border Background="#FF393A41" Width="580" Height="600"
+        <Border Background="#FF393A41" Width="580" Height="630"
                 CornerRadius="20">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
                     </TextBlock>
                     <TextBox Text="{Binding CardModel.Title}"
                              FontSize="16"
-                             MinWidth="300"
+                             MinWidth="405"
                              HorizontalAlignment="Left"
                              TextWrapping="NoWrap"
                              TextAlignment="Left"
@@ -68,35 +68,49 @@
 
                         <StackPanel Grid.Row="0" Grid.Column="0">
                             <TextBlock FontSize="18"
-                           Margin="0 20 0 10" 
-                           Foreground="#FFF4F5F5"
-                           FontWeight="Medium">
-                    <InlineUIContainer>
-                        <Image Source="/TabulaDevApp;component/Images/MarkIcon.png" 
-                               Height="16"/>
-                    </InlineUIContainer>
-                    <Run>Метки</Run>
+                                       Margin="0 20 0 10" 
+                                       Foreground="#FFF4F5F5"
+                                       FontWeight="Medium">
+                                       <InlineUIContainer>
+                                           <Image Source="/TabulaDevApp;component/Images/MarkIcon.png" 
+                                                  Height="16"/>
+                                       </InlineUIContainer>
+                                       <Run>Метки</Run>
                             </TextBlock>
+                            <ScrollViewer x:Name="scrollViewer"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          Width="405"
+                                          ScrollViewer.PreviewMouseLeftButtonDown="scrollViewer_PreviewMouseLeftButtonDown"
+                                          ScrollViewer.PreviewMouseMove="scrollViewer_PreviewMouseMove"
+                                          ScrollViewer.PreviewMouseLeftButtonUp="scrollViewer_PreviewMouseLeftButtonUp"
+                                          ScrollViewer.PreviewMouseWheel="scrollViewer_PreviewMouseWheel">
+                                <ContentControl Height="30"
+                                          Content="{Binding LabelList}"/>
+                            </ScrollViewer>
+                            <StackPanel HorizontalAlignment="Left">
+                                <ContentControl Content="{Binding AddNewLabel}"/>
+                            </StackPanel>
                             <TextBlock FontSize="18"
-                           Margin="0 20 0 10" 
-                           Foreground="#FFF4F5F5"
-                           FontWeight="Medium">
-                    <InlineUIContainer>
-                        <Image Source="/TabulaDevApp;component/Images/CalendarIcon.png" 
-                               Height="16"/>
-                    </InlineUIContainer>
-                    <Run>Срок</Run>
+                                       Margin="0 20 0 10" 
+                                       Foreground="#FFF4F5F5"
+                                       FontWeight="Medium">
+                                       <InlineUIContainer>
+                                            <Image Source="/TabulaDevApp;component/Images/CalendarIcon.png" 
+                                                   Height="16"/>
+                                        </InlineUIContainer>
+                                       <Run>Срок</Run> 
                             </TextBlock>
                             <TextBlock 
-                           FontSize="18"
-                           Margin="0 20 0 10" 
-                           Foreground="#FFF4F5F5" 
-                           FontWeight="Medium">
-                    <InlineUIContainer>
-                        <Image Source="/TabulaDevApp;component/Images/DescriptionIcon.png" 
-                               Height="16"/>
-                    </InlineUIContainer>
-                    <Run>Описание</Run>
+                                       FontSize="18"
+                                       Margin="0 20 0 10" 
+                                       Foreground="#FFF4F5F5" 
+                                       FontWeight="Medium">
+                                       <InlineUIContainer>
+                                           <Image Source="/TabulaDevApp;component/Images/DescriptionIcon.png" 
+                                                  Height="16"/>
+                                       </InlineUIContainer>
+                                       <Run>Описание</Run>
                             </TextBlock>
                             <TextBox Text="{Binding CardModel.Description}"
                                      FontSize="14"
@@ -107,12 +121,11 @@
                                      MaxWidth="405"
                                      MinWidth="405"
                                      MinHeight="150"
-                                     MaxHeight="340"
+                                     MaxHeight="300"
                                      Style="{StaticResource AddCardTextBoxStyle}" 
                                      CaretBrush="#FFF4F5F5" 
                                      Foreground="#FFF4F5F5" 
                                      Padding="5"/>
-                            
                         </StackPanel>
 
                         <StackPanel Grid.Row="0" Grid.Column="1">
