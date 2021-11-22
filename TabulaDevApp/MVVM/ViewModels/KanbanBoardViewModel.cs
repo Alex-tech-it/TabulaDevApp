@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,12 +13,14 @@ namespace TabulaDevApp.MVVM.ViewModels
     class KanbanBoardViewModel : ObservableObject
     {
         private NavigationStore _navigationStore;           // Navigation to add New Card
+        NavigationStore _upperNavigation;
         private StackPanel _currentStackPanel;              // Shows tabel
         private KanbanBoardModel _kanbanBoardModel;         // Model contains structure of tabel
         private Card _dragAndDropCurrentCard;
         private Border _dragAndDropEmptyCard;
         private int _dragAndDropStoreCardIndex;
         private int _dragAndDropStoreColumnIndex;
+        ObservableCollection<KanbanBoardModel> _listBoards;
 
         public RelayCommand NavigateSettingsBoardCommand { get; set; }
         public RelayCommand NavigateMembersBoardCommand { get; set; }
@@ -53,19 +51,21 @@ namespace TabulaDevApp.MVVM.ViewModels
             
         }
         public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model, 
-            ObservableCollection<KanbanBoardModel> listBoards = null, NavigationStore upperNavigation = null)
+            ObservableCollection<KanbanBoardModel> outListBoards, NavigationStore upperNavigation)
         {
             _dragAndDropStoreCardIndex = -1;
             _dragAndDropStoreColumnIndex = -1;
             _dragAndDropEmptyCard = CreateUIEmptyCard();
 
+            _listBoards = outListBoards;
             kanbanBoardModel = model;
             _navigationStore = navigation;
+            _upperNavigation = upperNavigation;
 
             NavigateSettingsBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, listBoards, upperNavigation);
+                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, _listBoards, upperNavigation);
             });
             NavigateMembersBoardCommand = new RelayCommand(obj =>
             {
@@ -262,7 +262,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
             int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
 
-            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex);
+            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _listBoards, _upperNavigation);
 
             UpdateStackPanel();
         }
@@ -425,7 +425,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = card.Name.Split(new char[] { '_' });
             int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
             int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
-            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex);
+            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _listBoards, _upperNavigation);
         }
 
         // Keeps track of the display of column name changes

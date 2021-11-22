@@ -19,7 +19,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         private NavigationStore _navigationMenuStore;
         private StackPanel _listBoards;
         private ObservableCollection<KanbanBoardModel> _dataList;
-
+        NavigationStore _navigationStore;
         public StackPanel StackPanelListBoards
         {
             get => _listBoards;
@@ -55,6 +55,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigationStore restoreNavigationMenuStore = null)
         {
             DataList = listBoards;
+            _navigationStore = navigationStore;
             StackPanelListBoards = new StackPanel();
             StackPanelListBoards.HorizontalAlignment = HorizontalAlignment.Center;
             UpdateListBoards();
@@ -161,7 +162,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = board.Name.Split(new char[] { '_' });
             int index = Convert.ToInt32(arrayWordsButton[1]);
 
-            _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel(_navigationMenuStore, DataList[index]);
+            _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel(_navigationMenuStore, DataList[index], outListBoards: DataList, _navigationStore);
         }
 
 

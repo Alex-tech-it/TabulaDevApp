@@ -71,7 +71,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateSaveCardCommand { get; set; }
         public RelayCommand NavigateExitCardCommand { get; set; }
         public AddCardViewModel(NavigationStore navigationStore, KanbanBoardModel model,
-            int indexColumn)
+            int indexColumn, ObservableCollection<KanbanBoardModel> thisListBoards, NavigationStore upperNavigation)
         {
             IsReady = false;
             CardModel = new Card();
@@ -91,7 +91,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                     CardModel.CardLabelList = _labelCollection;
                     model.Lists[indexColumn].Cards.Add(CardModel);
                     navigationStore.UpperViewModel = null;
-                    navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, model);
+                    navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, model, outListBoards: thisListBoards, upperNavigation);
                 }
                 else
                 {
