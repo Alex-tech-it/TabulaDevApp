@@ -96,8 +96,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateSaveBoardCommand { get; set; }
         public RelayCommand NavigateExitBoardCommand { get; set; }
         public RelayCommand NavigateDeleteBoardCommand { get; set; }
-        public KanbanBoardSettingsViewModel(NavigationStore navigation, KanbanBoardModel model, 
-            ObservableCollection<KanbanBoardModel> listBoards, NavigationStore upperNavigation)
+        public KanbanBoardSettingsViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user)
         {
             kanbanBoardModel = model;
             LabelList = UpdateLabelList();
@@ -115,7 +114,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                 {
                     IsReady = false;
                     navigation.UpperViewModel = null;
-                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, kanbanBoardModel, listBoards, upperNavigation);
+                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, kanbanBoardModel, upperNavigation, user);
+                    upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, user, navigation);
                 }
                 else
                 {
@@ -125,13 +125,13 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateExitBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, kanbanBoardModel, listBoards, upperNavigation);
+                navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, kanbanBoardModel, upperNavigation, user);
             });
             NavigateDeleteBoardCommand = new RelayCommand(obj =>
             {
-                listBoards.Remove(kanbanBoardModel);
+                user.userBoards.Remove(kanbanBoardModel);
                 navigation.UpperViewModel = null;
-                upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, listBoards, navigation);
+                upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, user, navigation);
                 navigation.CurrentViewModel = new MainPageViewModel();
             });
         }

@@ -138,7 +138,9 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="15 10 5 10">
                         <Ellipse Fill="White" Width="35" Height="35"/>
-                        <TextBlock Text="Пользователь" Foreground="White"
+                        <TextBlock Text="{Binding userModelUI.Username}" Foreground="White"
+                                       TextTrimming="WordEllipsis"
+                                       MaxWidth="180"
                                        FontSize="14"
                                        VerticalAlignment="Center"
                                        Margin="10 0 5 0"/>
