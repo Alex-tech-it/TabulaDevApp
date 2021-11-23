@@ -83,7 +83,7 @@
                          TextWrapping="NoWrap"
                          MaxWidth="330"
                          MinHeight="150"
-                         MaxHeight="200"
+                         MaxHeight="150"
                          Style="{StaticResource AddCardTextBoxStyle}" 
                          Foreground="#FFF4F5F5" 
                          CaretBrush="#FFF4F5F5" Padding="4"/>
