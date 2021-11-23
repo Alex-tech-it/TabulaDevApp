@@ -7,7 +7,10 @@
              xmlns:viewModel="clr-namespace:TabulaDevApp.MVVM.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Border Background="#FF26262C">
         <Border CornerRadius="10"
                 HorizontalAlignment="Center"
@@ -38,6 +41,11 @@
                          Style="{StaticResource TextBoxStyle}"
                          Margin="0 0 0 0" 
                          CaretBrush="#FFDEDEDE"/>
+                <TextBlock Visibility="{Binding IsEmptyEmail, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Margin="5 0 0 0"
+                                   Foreground="Red"
+                                   Text="Необходимо указать Email"
+                                   FontSize="9"/>
                 <TextBlock Text="Никнейм"
                            TextWrapping="Wrap"
                            TextAlignment="Left"
@@ -50,6 +58,16 @@
                          Style="{StaticResource TextBoxStyle}"
                          Margin="0 0 0 0" 
                          CaretBrush="#FFDEDEDE"/>
+                <TextBlock Visibility="{Binding IsEmptyNickName, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Margin="5 0 0 0"
+                                   Foreground="Red"
+                                   Text="Необходимо указать Никнейм"
+                                   FontSize="9"/>
+                <TextBlock Visibility="{Binding IsExistNickName, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Margin="5 0 0 0"
+                                   Foreground="Red"
+                                   Text="Такой никнейм уже существует"
+                                   FontSize="9"/>
                 <TextBlock Text="Пароль"
                            TextWrapping="Wrap"
                            TextAlignment="Left"
@@ -57,9 +75,15 @@
                            Foreground="#FFC0C1C4"
                            Margin="4,5,0,2"
                            MaxWidth="250" FontWeight="Bold"/>
-                <PasswordBox Width="250" Height="35"
+                <PasswordBox Name="passwordBox"
+                         Width="250" Height="35"
                          Style="{StaticResource PasswordBox}" 
                              CaretBrush="#FFDEDEDE"/>
+                <TextBlock Visibility="{Binding IsEmptyPassword, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Margin="5 0 0 0"
+                                   Foreground="Red"
+                                   Text="Необходимо указать пароль"
+                                   FontSize="9"/>
                 <TextBlock Text="Подтверждение пароля"
                            TextWrapping="Wrap"
                            TextAlignment="Left"
@@ -69,14 +93,21 @@
                            MaxWidth="250" FontWeight="Bold"/>
                 <PasswordBox Width="250" Height="35"
                          Style="{StaticResource PasswordBox}"
-                         Margin="0,0,0,30" 
-                             CaretBrush="#FFDEDEDE"/>
+                         Margin="0,0,0,0" 
+                         CaretBrush="#FFDEDEDE"/>
+                <TextBlock Visibility="{Binding IsEmptyVeryPassword, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   Margin="5 0 0 0"
+                                   Foreground="Red"
+                                   Text="Необходимо указать и подтвердить пароль"
+                                   FontSize="9"/>
                 <Button Content="Зарегистрироваться" Width="250" Height="40"
+                        Margin="0 30 0 0"
                         Background="#555562"
                         TextBlock.FontWeight="Bold"
                         TextBlock.Foreground="White"
                         Style="{StaticResource ButtonStyle}"
-                        Command="{Binding NavigateHomeCommand}"/>
+                        Command="{Binding NavigateHomeCommand}"
+                         CommandParameter="{Binding ElementName=passwordBox}"/>
             </StackPanel>
         </Border>
     </Border>

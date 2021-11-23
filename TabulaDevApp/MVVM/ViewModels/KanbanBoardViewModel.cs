@@ -20,7 +20,8 @@ namespace TabulaDevApp.MVVM.ViewModels
         private Border _dragAndDropEmptyCard;
         private int _dragAndDropStoreCardIndex;
         private int _dragAndDropStoreColumnIndex;
-        ObservableCollection<KanbanBoardModel> _listBoards;
+
+        UserModel _userModel;
 
         public RelayCommand NavigateSettingsBoardCommand { get; set; }
         public RelayCommand NavigateMembersBoardCommand { get; set; }
@@ -50,14 +51,13 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             
         }
-        public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model, 
-            ObservableCollection<KanbanBoardModel> outListBoards, NavigationStore upperNavigation)
+        public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user)
         {
             _dragAndDropStoreCardIndex = -1;
             _dragAndDropStoreColumnIndex = -1;
             _dragAndDropEmptyCard = CreateUIEmptyCard();
 
-            _listBoards = outListBoards;
+            _userModel = user;
             kanbanBoardModel = model;
             _navigationStore = navigation;
             _upperNavigation = upperNavigation;
@@ -65,7 +65,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateSettingsBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, _listBoards, upperNavigation);
+                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, upperNavigation, user);
             });
             NavigateMembersBoardCommand = new RelayCommand(obj =>
             {
@@ -262,7 +262,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
             int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
 
-            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _listBoards, _upperNavigation);
+            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _upperNavigation, _userModel);
 
             UpdateStackPanel();
         }
@@ -403,7 +403,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = card.Name.Split(new char[] { '_' });
             int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
             int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
-            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _listBoards, _upperNavigation);
+            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _upperNavigation, _userModel);
         }
 
         // Keeps track of the display of column name changes

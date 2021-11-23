@@ -16,14 +16,16 @@ namespace TabulaDevApp.MVVM.ViewModels
         private NavigationStore _navigationStore;
         private PreviewViewModel previewViewModel;
         private AuthorizationViewModel authorizationViewModel;
-        private ObservableCollection<KanbanBoardModel> _dataList;
-        public ObservableCollection<KanbanBoardModel> DataList
+
+        // Data
+        private UserModel _userModel;
+        public UserModel userModel
         {
-            get => _dataList;
+            get => _userModel;
             set
             {
-                _dataList = value;
-                OnPropertyChanged("DataList");
+                _userModel = value;
+                OnPropertyChanged("UserModel");
             }
         }
 
@@ -41,7 +43,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public MainViewModel(NavigationStore navigationStore)
         {
             // Data
-            DataList = new ObservableCollection<KanbanBoardModel>();
+            userModel = new UserModel(); 
 
             // Init Navigator Store
             _navigationStore = navigationStore;
@@ -52,7 +54,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             // Init ViewModels
             previewViewModel = new PreviewViewModel();
-            authorizationViewModel = new AuthorizationViewModel(_navigationStore, DataList);
+            authorizationViewModel = new AuthorizationViewModel(_navigationStore, userModel);
             
 
             // Init Commands

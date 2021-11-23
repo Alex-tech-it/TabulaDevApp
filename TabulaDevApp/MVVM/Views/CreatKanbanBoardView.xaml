@@ -11,7 +11,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <Border Background="black" Opacity="0.6"/>
+        <Border Background="black" Opacity="0.6" Margin="0 -20 0 0"/>
         <Border Background="White" Opacity="0.6" Width="400" Height="150"
                 CornerRadius="20">
             <Border.Effect>

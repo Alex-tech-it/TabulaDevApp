@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -19,9 +20,15 @@
     <Border Background="#26262C">
         <Grid>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Добро пожаловать, *UserName*!"
-                       TextAlignment="Center"
-                       FontSize="36" Foreground="#FFF4F5F5"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Добро пожаловать, "
+                           TextAlignment="Center"
+                           FontSize="36" Foreground="#FFF4F5F5"/>
+                    <TextBlock Text="{Binding User.Username}"
+                                TextAlignment="Center"
+                                FontSize="36" Foreground="#2B49E0"/>
+                    <emoji:TextBlock Text="😼" FontSize="36"/>
+                </StackPanel>
                 <TextBlock Text="Начните работу, создав новую доску или выбрав из существующих..."
                        TextAlignment="Center"
                        FontSize="18" Foreground="#FFF4F5F5"/>

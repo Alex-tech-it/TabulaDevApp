@@ -72,7 +72,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateSaveCardCommand { get; set; }
         public RelayCommand NavigateExitCardCommand { get; set; }
         public CardViewModel(NavigationStore navigationStore, KanbanBoardModel model,
-            int indexColumn, int indexCard, ObservableCollection<KanbanBoardModel> thisListBoards, NavigationStore upperNavigation)
+            int indexColumn, int indexCard, NavigationStore upperNavigation, UserModel user)
         {
             IsReady = false;
             CardModel = model.Lists[indexColumn].Cards[indexCard];
@@ -93,7 +93,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                     IsReady = false;
                     model.Lists[indexColumn].Cards[indexCard] = CardModel;
                     navigationStore.UpperViewModel = null;
-                    navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, model, outListBoards: thisListBoards, upperNavigation);
+                    navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, model, upperNavigation, user);
                 }
                 else
                 {

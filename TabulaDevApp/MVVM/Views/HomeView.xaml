@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:TabulaDevApp.MVVM.ViewModels"
              xmlns:view="clr-namespace:TabulaDevApp.MVVM.Views"
+             xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1440" AllowDrop="True">
@@ -57,120 +58,160 @@
         </DataTemplate>
     </UserControl.Resources>
     
-    <Border Style="{StaticResource BackgroundBorder}">
-        
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Grid>
+        <Border Style="{StaticResource BackgroundBorder}">
 
-            <!--Left Menu Panel-->
-            <Border Grid.Column="0" Grid.Row="0"
-                    Background="#1C1C21">
-                <StackPanel>
-                    <StackPanel Background="#1C1C21" Margin="0">
-                        <RadioButton Content="Главная страница"
-                                Height="50"
-                                Foreground="#FFE0E0E0"
-                                FontSize="16"
-                                Margin="0 50 0 0"
-                                Style="{StaticResource HomeViewMenuButton}"
-                                Command="{Binding NavigateMainPageCommand}" 
-                                FontWeight="Medium"/>
-                        <RadioButton Content="Сообщества"
-                                Height="50"
-                                Foreground="#FFE0E0E0"
-                                FontSize="16"
-                                FontWeight="Medium"
-                                Style="{StaticResource HomeViewMenuButton}"
-                                Command="{Binding NavigateCommunityCommand}"/>
-                        <RadioButton Content="Мои карточки"
-                                Height="50"
-                                Foreground="#FFE0E0E0"
-                                FontSize="16"
-                                FontWeight="Medium"
-                                Style="{StaticResource HomeViewMenuButton}"
-                                Command="{Binding NavigateOwnCardsCommand}"/>
-                    </StackPanel>
-                    <Separator Background="#A5767676" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center" 
-                               Width="240" 
-                               Height="1"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <!--Left Menu Panel-->
+                <Border Grid.Column="0" Grid.Row="0"
+                        Background="#1C1C21">
                     <StackPanel>
-                        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden"
-                        HorizontalScrollBarVisibility="Hidden">
-                            <ContentPresenter Content="{Binding StackPanelListBoards}" 
-                                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top" Margin="10 5 10 0"/>
-                        </ScrollViewer>
+                        <StackPanel Background="#1C1C21" Margin="0">
+                            <RadioButton Content="Главная страница"
+                                    Height="50"
+                                    Foreground="#FFE0E0E0"
+                                    FontSize="16"
+                                    Margin="0 50 0 0"
+                                    Style="{StaticResource HomeViewMenuButton}"
+                                    Command="{Binding NavigateMainPageCommand}" 
+                                    FontWeight="Medium"/>
+                            <RadioButton Content="Сообщества"
+                                    Height="50"
+                                    Foreground="#FFE0E0E0"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Style="{StaticResource HomeViewMenuButton}"
+                                    Command="{Binding NavigateCommunityCommand}"/>
+                            <RadioButton Content="Мои карточки"
+                                    Height="50"
+                                    Foreground="#FFE0E0E0"
+                                    FontSize="16"
+                                    FontWeight="Medium"
+                                    Style="{StaticResource HomeViewMenuButton}"
+                                    Command="{Binding NavigateOwnCardsCommand}"/>
+                        </StackPanel>
+                        <Separator Background="#A5767676" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Width="240" 
+                                   Height="1"/>
+                        <StackPanel>
+                            <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden"
+                            HorizontalScrollBarVisibility="Hidden">
+                                <ContentPresenter Content="{Binding StackPanelListBoards}" 
+                                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" Margin="10 5 10 0"/>
+                            </ScrollViewer>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </Border>
+                </Border>
 
+                <Border Background="#2F3037" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
+                    <StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="0" Background="Transparent">
+                            <Button Style="{StaticResource AddNewBoardButtonStyle}"
+                                    Background="#1C1C21"
+                                    BorderThickness="0"
+                                    FontSize="16"
+                                    Foreground="#FFF4F5F5"
+                                    Command="{Binding NavigateKanbanBoardCommand}" 
+                                    Height="50"  >
 
-            <Border Background="#2F3037" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom">
-                <StackPanel>
-                    <StackPanel Grid.Column="0" Grid.Row="0" Background="Transparent">
-                        <Button Style="{StaticResource AddNewBoardButtonStyle}"
-                                Background="#1C1C21"
-                                BorderThickness="0"
-                                FontSize="16"
-                                Foreground="#FFF4F5F5"
-                                Command="{Binding NavigateKanbanBoardCommand}" 
-                                Height="50"  >
-                            
-                            <WrapPanel>
-                                <Image Source="/TabulaDevApp;component/Images/AddDeskIcon.png" 
-                                       Height="25"/>
-                                <TextBlock 
-                                    FontSize="16" 
-                                    FontWeight="Medium" 
-                                    VerticalAlignment="Center" 
-                                    Margin="10,0,0,2">Создать доску
-                                </TextBlock>
-                            </WrapPanel>
-                        </Button>
+                                <WrapPanel>
+                                    <Image Source="/TabulaDevApp;component/Images/AddDeskIcon.png" 
+                                           Height="25"/>
+                                    <TextBlock 
+                                        FontSize="16" 
+                                        FontWeight="Medium" 
+                                        VerticalAlignment="Center" 
+                                        Margin="10,0,0,2">Создать доску
+                                    </TextBlock>
+                                </WrapPanel>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15 10 5 10">
+                            <Ellipse Fill="White" Width="35" Height="35"/>
+                            <TextBlock x:Name="AnimationText"
+                                           Text="{Binding userModelUI.Username}" Foreground="#FFF4F5F5"
+                                           TextTrimming="WordEllipsis"
+                                           MaxWidth="150"
+                                           FontSize="14"
+                                           VerticalAlignment="Center"
+                                           Margin="10 0 2 0">
+                            </TextBlock>
+                            <emoji:TextBlock Text="🐉" FontSize="20" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15 0 5 15"
+                                    HorizontalAlignment="Left">
+                            <Button Content="Выход"
+                                Name="Out"
+                                Margin="0 0 10 0"
+                                FontSize="12"
+                                Foreground="White"
+                                Cursor="Hand"
+                                Style="{StaticResource PreviewNavigationButtonStyle}"
+                                Command="{Binding NavigateOutCommand}"/>
+                            <Button Content="Настройки"
+                                Name="Settings"
+                                FontSize="12"
+                                Foreground="White"
+                                Cursor="Hand"
+                                Style="{StaticResource PreviewNavigationButtonStyle}"
+                                Command="{Binding NavigateSettingsCommand}"
+                                    />
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="15 10 5 10">
-                        <Ellipse Fill="White" Width="35" Height="35"/>
-                        <TextBlock Text="Пользователь" Foreground="White"
-                                       FontSize="14"
-                                       VerticalAlignment="Center"
-                                       Margin="10 0 5 0"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="15 0 5 15"
-                                HorizontalAlignment="Left">
-                        <Button Content="Выход"
-                            Name="Out"
-                            Margin="0 0 10 0"
-                            FontSize="12"
-                            Foreground="White"
-                            Cursor="Hand"
-                            Style="{StaticResource PreviewNavigationButtonStyle}"
-                            Command="{Binding NavigateOutCommand}"/>
-                        <Button Content="Настройки"
-                            Name="Settings"
-                            FontSize="12"
-                            Foreground="White"
-                            Cursor="Hand"
-                            Style="{StaticResource PreviewNavigationButtonStyle}"
-                            Command="{Binding NavigateSettingsCommand}"
-                                />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
+                </Border>
 
-            <!--Content in Window-->
-            <ContentControl Grid.Row="0" Grid.Column="1"
-                            Content="{Binding CurrentViewModel}"/>
-            <ContentControl Grid.Row="0" Grid.Column="1"
-                            Content="{Binding UpperViewModel}"/>
-            
-        </Grid>
-    </Border>
+                <!--Content in Window-->
+                <ContentControl Grid.Row="0" Grid.Column="1"
+                                Margin="0 20 0 0"
+                                Content="{Binding CurrentViewModel}"/>
+                <ContentControl Grid.Row="0" Grid.Column="1"
+                                Content="{Binding UpperViewModel}"/>
+            </Grid>
+        </Border>
+        <Border VerticalAlignment="Top" Height="4" Padding="0" Margin="0 3 0 0"
+                Background="#09090B"  BorderThickness="0">
+
+            <Border.Effect>
+                <DropShadowEffect x:Name="MyAnimatedBrush"         
+                                  BlurRadius="15" 
+                                  Direction="270"
+                                  ShadowDepth="6" Color="#2B48E0"/>
+            </Border.Effect>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Border.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames
+                                Storyboard.TargetProperty="Color"
+                                Storyboard.TargetName="MyAnimatedBrush"
+                                Duration="0:0:13" FillBehavior="HoldEnd" RepeatBehavior="Forever">
+                                <ColorAnimationUsingKeyFrames.KeyFrames>
+                                    <LinearColorKeyFrame Value="#E02B3A" KeyTime="0:0:2"/>
+                                    <LinearColorKeyFrame Value="#DD2BE0" KeyTime="0:0:4"/>
+                                    <LinearColorKeyFrame Value="#2EE02B" KeyTime="0:0:6"/>
+                                    <LinearColorKeyFrame Value="#F0DB5E" KeyTime="0:0:8"/>
+                                    <LinearColorKeyFrame Value="#E02B3A" KeyTime="0:0:10"/>
+                                    <LinearColorKeyFrame Value="#2B48E0" KeyTime="0:0:12"/>
+                                </ColorAnimationUsingKeyFrames.KeyFrames>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+
+        </Border>
+        <Border VerticalAlignment="Top" Height="4" Background="#09090B"/>
+    </Grid>
 </UserControl>

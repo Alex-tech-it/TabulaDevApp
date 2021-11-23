@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emoji.Wpf, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emoji.Wpf.0.3.3\lib\net40\Emoji.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="FireSharp, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FireSharp.2.0.4\lib\portable-net45+sl5+wp8+win8\FireSharp.dll</HintPath>
     </Reference>
@@ -63,6 +66,9 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -71,6 +77,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Typography.GlyphLayout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emoji.Wpf.0.3.3\lib\net40\Typography.GlyphLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="Typography.OpenFont, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emoji.Wpf.0.3.3\lib\net40\Typography.OpenFont.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -90,6 +102,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Commands\RelayCommand.cs" />
+    <Compile Include="Core\Network\Configuration.cs" />
+    <Compile Include="Core\Network\UserNetwork.cs" />
     <Compile Include="Core\Servies\NavigationStore.cs" />
     <Compile Include="Core\Servies\ObservableObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -230,6 +244,7 @@
     <Compile Include="MVVM\Models\Participant.cs" />
     <Compile Include="MVVM\Models\RegistrationModel.cs" />
     <Compile Include="MVVM\Models\DragAndDropUIList.cs" />
+    <Compile Include="MVVM\Models\UserModel.cs" />
     <Compile Include="MVVM\ViewModels\AddCardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\AuthorizationViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CardViewModel.cs" />

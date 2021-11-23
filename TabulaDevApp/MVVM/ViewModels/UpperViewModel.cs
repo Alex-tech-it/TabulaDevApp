@@ -14,11 +14,12 @@ namespace TabulaDevApp.MVVM.ViewModels
     {
         public RelayCommand NavigateAuthorizationCommand { get; set; }
         public RelayCommand NavigateStateCommand { get; set; }
-        public UpperViewModel(NavigationStore navigationStore, ObservableCollection<KanbanBoardModel> listBoards)
+        public UpperViewModel(NavigationStore navigationStore, UserModel user)
         {
             NavigateAuthorizationCommand = new RelayCommand(obj =>
             {
-                navigationStore.CurrentViewModel = new AuthorizationViewModel(navigationStore, listBoards);
+                user.Clear();
+                navigationStore.CurrentViewModel = new AuthorizationViewModel(navigationStore, user);
                 navigationStore.IsLogged = true;
                 navigationStore.UpperViewModel = null;
             });
