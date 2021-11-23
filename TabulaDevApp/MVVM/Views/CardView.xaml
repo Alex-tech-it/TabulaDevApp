@@ -121,7 +121,7 @@
                                      MaxWidth="405"
                                      MinWidth="405"
                                      MinHeight="150"
-                                     MaxHeight="300"
+                                     MaxHeight="215"
                                      Style="{StaticResource AddCardTextBoxStyle}" 
                                      CaretBrush="#FFF4F5F5" 
                                      Foreground="#FFF4F5F5" 

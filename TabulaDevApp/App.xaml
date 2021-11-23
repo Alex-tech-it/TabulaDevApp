@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Theme/Styles/AddNewBoardButtonStyle.xaml" />
                 <ResourceDictionary Source="Theme/Styles/OpenCardViewButtonStyle.xaml" />
                 <ResourceDictionary Source="Theme/Styles/LabelStyleView.xaml" />
+                <ResourceDictionary Source="Theme/Styles/CardClickButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
 

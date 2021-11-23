@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,12 +13,14 @@ namespace TabulaDevApp.MVVM.ViewModels
     class KanbanBoardViewModel : ObservableObject
     {
         private NavigationStore _navigationStore;           // Navigation to add New Card
+        NavigationStore _upperNavigation;
         private StackPanel _currentStackPanel;              // Shows tabel
         private KanbanBoardModel _kanbanBoardModel;         // Model contains structure of tabel
         private Card _dragAndDropCurrentCard;
         private Border _dragAndDropEmptyCard;
         private int _dragAndDropStoreCardIndex;
         private int _dragAndDropStoreColumnIndex;
+        ObservableCollection<KanbanBoardModel> _listBoards;
 
         public RelayCommand NavigateSettingsBoardCommand { get; set; }
         public RelayCommand NavigateMembersBoardCommand { get; set; }
@@ -53,19 +51,21 @@ namespace TabulaDevApp.MVVM.ViewModels
             
         }
         public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model, 
-            ObservableCollection<KanbanBoardModel> listBoards = null, NavigationStore upperNavigation = null)
+            ObservableCollection<KanbanBoardModel> outListBoards, NavigationStore upperNavigation)
         {
             _dragAndDropStoreCardIndex = -1;
             _dragAndDropStoreColumnIndex = -1;
             _dragAndDropEmptyCard = CreateUIEmptyCard();
 
+            _listBoards = outListBoards;
             kanbanBoardModel = model;
             _navigationStore = navigation;
+            _upperNavigation = upperNavigation;
 
             NavigateSettingsBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, listBoards, upperNavigation);
+                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, _listBoards, upperNavigation);
             });
             NavigateMembersBoardCommand = new RelayCommand(obj =>
             {
@@ -262,7 +262,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
             int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
 
-            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex);
+            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _listBoards, _upperNavigation);
 
             UpdateStackPanel();
         }
@@ -276,8 +276,6 @@ namespace TabulaDevApp.MVVM.ViewModels
             
             // Init normal view
             Border newCard = new Border();
-            Border titleCard = new Border();
-            Border rectUnder = new Border();
 
             // Init labels variables
             StackPanel labelsPanel = new StackPanel();
@@ -287,7 +285,6 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             // Layouts
             StackPanel newPanel = new StackPanel();
-            Grid titleGrid = new Grid();
 
             // Card content
             TextBlock textBlockTitle = new TextBlock();
@@ -296,13 +293,10 @@ namespace TabulaDevApp.MVVM.ViewModels
             // Open card view Button
             Button openViewCard = new Button();
             openViewCard.Name = "Card_" + card.id;
-            openViewCard.Width = 10;
-            openViewCard.Height = 10;
+            openViewCard.Width = 215;
             openViewCard.Click += OnClickCard;
-            openViewCard.HorizontalAlignment = HorizontalAlignment.Right;
-            openViewCard.VerticalAlignment = VerticalAlignment.Top;
-            openViewCard.Margin = new Thickness(0, 5, 5, 0);
-            openViewCard.Style = Application.Current.Resources["OpenCardViewButtonStyle"] as Style;
+            openViewCard.Style = Application.Current.Resources["CardClickButton"] as Style;
+
 
             newPanel.Orientation = Orientation.Vertical;
 
@@ -313,17 +307,6 @@ namespace TabulaDevApp.MVVM.ViewModels
             newCard.Height = 105;
             newCard.Name = "Card_" + card.id;
             newCard.MouseMove += Card_MouseMove;
-
-            rectUnder.Background = backgroundTitle;
-            rectUnder.VerticalAlignment = VerticalAlignment.Bottom;
-            rectUnder.Width = 215;
-            rectUnder.Height = 5;
-
-            titleCard.Background = backgroundTitle;
-            titleCard.CornerRadius = new CornerRadius(5);
-            titleCard.VerticalAlignment = VerticalAlignment.Top;
-            titleCard.Width = 215;
-            titleCard.Height = 20;
 
             textBlockTitle.FontSize = 14;
             textBlockTitle.TextWrapping = TextWrapping.Wrap;
@@ -361,13 +344,8 @@ namespace TabulaDevApp.MVVM.ViewModels
 
                 labelsPanel.Children.Add(borderLabel);
             }
-
-            // Layouts adding
-            titleGrid.Children.Add(titleCard);
-            titleGrid.Children.Add(rectUnder);
-            titleGrid.Children.Add(openViewCard);
-
-            newPanel.Children.Add(titleGrid);
+            
+            newPanel.Children.Add(openViewCard);
             newPanel.Children.Add(labelsPanel);
             newPanel.Children.Add(textBlockTitle);
             newPanel.Children.Add(textDescription);
@@ -425,7 +403,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = card.Name.Split(new char[] { '_' });
             int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
             int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
-            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex);
+            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _listBoards, _upperNavigation);
         }
 
         // Keeps track of the display of column name changes
@@ -437,6 +415,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             kanbanBoardModel.Lists[columnIndex].Title = titleColumn.Text;
         }
+
 
         /// ------------------------
         /// Functions Drag & Drop

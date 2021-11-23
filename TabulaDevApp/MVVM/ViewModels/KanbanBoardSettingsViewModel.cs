@@ -125,7 +125,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateExitBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, kanbanBoardModel);
+                navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, kanbanBoardModel, listBoards, upperNavigation);
             });
             NavigateDeleteBoardCommand = new RelayCommand(obj =>
             {
