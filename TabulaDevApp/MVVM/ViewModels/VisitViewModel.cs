@@ -22,7 +22,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         }
         public VisitViewModel(UserModel user )
         {
-            _user = user;
+            User = user;
         }
     }
 }
