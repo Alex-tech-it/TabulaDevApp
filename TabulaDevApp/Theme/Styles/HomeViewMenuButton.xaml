@@ -10,10 +10,13 @@
                         <Grid VerticalAlignment="Stretch"
                               HorizontalAlignment="Stretch"
                               Background="{TemplateBinding Background}">
+                            <Image Height="17" Source="/TabulaDevApp;component/Images/HomePageButton.png" 
+                                   HorizontalAlignment="Left" 
+                                   Margin="15,0,0,0"/>
                             <TextBlock Text="{TemplateBinding Property=Content}"
                                        FontSize="{TemplateBinding Property=FontSize}"
                                        VerticalAlignment="Center"
-                                       Margin="25 0 0 0">
+                                       Margin="40 0 0 0">
                             </TextBlock>
                         </Grid>
                     </ControlTemplate>
@@ -34,7 +37,83 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
+           TargetType="{x:Type RadioButton}"
+           x:Key="HomeViewNetworkButton">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              Background="{TemplateBinding Background}">
+                            <Image Height="17" Source="/TabulaDevApp;component/Images/CommunityPageButton.png" 
+                                   HorizontalAlignment="Left" 
+                                   Margin="15,0,0,0"/>
+                            <TextBlock Text="{TemplateBinding Property=Content}"
+                                       FontSize="{TemplateBinding Property=FontSize}"
+                                       VerticalAlignment="Center"
+                                       Margin="40 0 0 0">
+                            </TextBlock>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="#2F3037"/>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#393A41"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
+           TargetType="{x:Type RadioButton}"
+           x:Key="HomeViewMyCardsButton">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              Background="{TemplateBinding Background}">
+                            <Image Height="17" Source="/TabulaDevApp;component/Images/MyCardsPageButton.png" 
+                                   HorizontalAlignment="Left" 
+                                   Margin="15,0,0,0"/>
+                            <TextBlock Text="{TemplateBinding Property=Content}"
+                                       FontSize="{TemplateBinding Property=FontSize}"
+                                       VerticalAlignment="Center"
+                                       Margin="40 0 0 0">
+                            </TextBlock>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="#2F3037"/>
+            </Trigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#393A41"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="Image">
         <Setter Property="RenderOptions.BitmapScalingMode" 
                     Value="HighQuality"/>
