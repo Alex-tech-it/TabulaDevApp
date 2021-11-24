@@ -406,6 +406,15 @@
   <ItemGroup>
     <Resource Include="Images\CalendarIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HomePageButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MyCardsPageButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CommunityPageButton.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

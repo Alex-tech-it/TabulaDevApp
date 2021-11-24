@@ -89,14 +89,14 @@
                                     Foreground="#FFE0E0E0"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Style="{StaticResource HomeViewMenuButton}"
+                                    Style="{StaticResource HomeViewNetworkButton}"
                                     Command="{Binding NavigateCommunityCommand}"/>
                             <RadioButton Content="Мои карточки"
                                     Height="50"
                                     Foreground="#FFE0E0E0"
                                     FontSize="16"
                                     FontWeight="Medium"
-                                    Style="{StaticResource HomeViewMenuButton}"
+                                    Style="{StaticResource HomeViewMyCardsButton}"
                                     Command="{Binding NavigateOwnCardsCommand}"/>
                         </StackPanel>
                         <Separator Background="#A5767676" 
@@ -187,7 +187,7 @@
                 <DropShadowEffect x:Name="MyAnimatedBrush"         
                                   BlurRadius="15" 
                                   Direction="270"
-                                  ShadowDepth="6" Color="#2B48E0"/>
+                                  ShadowDepth="6" Color="#E02B3A"/>
             </Border.Effect>
             <Border.Triggers>
                 <EventTrigger RoutedEvent="Border.Loaded">
@@ -196,14 +196,17 @@
                             <ColorAnimationUsingKeyFrames
                                 Storyboard.TargetProperty="Color"
                                 Storyboard.TargetName="MyAnimatedBrush"
-                                Duration="0:0:13" FillBehavior="HoldEnd" RepeatBehavior="Forever">
+                                Duration="0:0:19" FillBehavior="HoldEnd" RepeatBehavior="Forever">
                                 <ColorAnimationUsingKeyFrames.KeyFrames>
                                     <LinearColorKeyFrame Value="#E02B3A" KeyTime="0:0:2"/>
-                                    <LinearColorKeyFrame Value="#DD2BE0" KeyTime="0:0:4"/>
-                                    <LinearColorKeyFrame Value="#2EE02B" KeyTime="0:0:6"/>
-                                    <LinearColorKeyFrame Value="#F0DB5E" KeyTime="0:0:8"/>
-                                    <LinearColorKeyFrame Value="#E02B3A" KeyTime="0:0:10"/>
-                                    <LinearColorKeyFrame Value="#2B48E0" KeyTime="0:0:12"/>
+                                    <LinearColorKeyFrame Value="#FFF0A015" KeyTime="0:0:4"/>
+                                    <LinearColorKeyFrame Value="#F0DB5E" KeyTime="0:0:6"/>
+                                    <LinearColorKeyFrame Value="#2EE02B" KeyTime="0:0:8"/>
+                                    <LinearColorKeyFrame Value="#FF2BE0B7" KeyTime="0:0:10"/>
+                                    <LinearColorKeyFrame Value="#FF2B8EE0" KeyTime="0:0:12"/>
+                                    <LinearColorKeyFrame Value="#FF442BE0" KeyTime="0:0:14"/>
+                                    <LinearColorKeyFrame Value="#FF9E2BE0" KeyTime="0:0:16"/>
+                                    <LinearColorKeyFrame Value="#FFE02B65" KeyTime="0:0:18"/>
                                 </ColorAnimationUsingKeyFrames.KeyFrames>
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
