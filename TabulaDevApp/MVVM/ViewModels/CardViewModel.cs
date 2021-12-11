@@ -124,7 +124,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                 borderLabel.FontWeight = FontWeights.Medium;
                 borderLabel.Foreground = foreground;
                 borderLabel.Margin = new Thickness(0, 0, 5, 0);
-                borderLabel.Background = label.Color;
+                SolidColorBrush backgroundLabel = (SolidColorBrush)new BrushConverter().ConvertFrom(label.Color);
+                borderLabel.Background = backgroundLabel;
                 borderLabel.Style = Application.Current.Resources["ButtonStyle"] as Style;
 
                 newPanel.Children.Add(borderLabel);
@@ -183,7 +184,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                     borderLabel.FontWeight = FontWeights.Medium;
                     borderLabel.Foreground = foreground;
                     borderLabel.Margin = new Thickness(0, 5, 5, 0);
-                    borderLabel.Background = kanbanBoardModel.LabelList[i].Color;
+                    SolidColorBrush backgroundLabel = (SolidColorBrush)new BrushConverter().ConvertFrom(kanbanBoardModel.LabelList[i].Color);
+                    borderLabel.Background = backgroundLabel;
                     borderLabel.Style = Application.Current.Resources["ButtonStyle"] as Style;
                     borderLabel.Click += AddLabel;
 

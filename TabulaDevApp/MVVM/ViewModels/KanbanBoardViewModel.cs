@@ -339,7 +339,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                 borderLabel.FontWeight = FontWeights.Medium;
                 borderLabel.Foreground = foreground;
                 borderLabel.Margin = new Thickness(0, 0, 3, 0);
-                borderLabel.Background = label.Color;
+                SolidColorBrush backgroundLabel = (SolidColorBrush)new BrushConverter().ConvertFrom(label.Color);
+                borderLabel.Background = backgroundLabel;
                 borderLabel.Style = Application.Current.Resources["LabelStyleView"] as Style;
 
                 labelsPanel.Children.Add(borderLabel);

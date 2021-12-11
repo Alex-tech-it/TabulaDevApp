@@ -10,10 +10,10 @@ namespace TabulaDevApp.MVVM.Models
 {
     public class LabelData : ObservableObject
     {
-        private SolidColorBrush _color;
+        private string _color;
         private string _description;
 
-        public SolidColorBrush Color
+        public string Color
         {
             get => _color;
             set
@@ -34,7 +34,7 @@ namespace TabulaDevApp.MVVM.Models
 
         public LabelData()
         {
-            Color = Brushes.White;
+            Color = "#ffffff";
             Description = "";
         }
 

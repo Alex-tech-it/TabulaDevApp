@@ -76,19 +76,19 @@ namespace TabulaDevApp.Core.Network
 
         public bool UpdateUser(UserModel model)
         {
-            try
-            {
+            //try
+            //{
                 IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
                 String id = "@" + model.Username.Trim();
 
                 var setter = _client.Update("Users" + "/" + id + "/", model);
 
                 return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    return false;
+            //}
         }
 
         public bool FreeNicknameCheck(string nickname)

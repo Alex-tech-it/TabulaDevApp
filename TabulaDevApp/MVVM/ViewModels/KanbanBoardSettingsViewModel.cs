@@ -29,11 +29,25 @@ namespace TabulaDevApp.MVVM.ViewModels
             {"Gray", new SolidColorBrush{Color = Color.FromRgb(171, 171, 171)}}
         };
 
+        public static Dictionary<string, string> addColorsHEX = new Dictionary<string, string>
+        {
+            {"Green", "#0BDA51"},
+            {"Red", "#ED2939"},
+            {"White", "#F4F5F5"},
+            {"Purpel", "#CB19EF"},
+            {"Blue", "#3080DE"},
+            {"Orange", "#F6B13E"},
+            {"Yellow", "#F9EA37"},
+            {"Turquoise", "#6AE7CB"},
+            {"Gray", "#ABABAB"}
+        };
+
         private StackPanel _labelList;
         private StackPanel _createNewLable;
         private KanbanBoardModel _kanbanBoardModel;
         private Border _selectedBorder;
         private SolidColorBrush _storeColor;
+        private string _storeColorHex;
         private string _nameNewLabel;
         private bool _isReady;
 
@@ -155,7 +169,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                 borderLabel.FontWeight = FontWeights.Medium;
                 borderLabel.Foreground = foreground;
                 borderLabel.Margin = new Thickness(0, 0, 5, 0);
-                borderLabel.Background = label.Color;
+                SolidColorBrush backgroundLabel = (SolidColorBrush)new BrushConverter().ConvertFrom(label.Color);
+                borderLabel.Background = backgroundLabel;
                 borderLabel.Style = Application.Current.Resources["ButtonStyle"] as Style;
 
                 newPanel.Children.Add(borderLabel);
@@ -378,6 +393,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             Border colorButton = (Border)sender;
             SolidColorBrush color = (colorButton.Name != "") ? addColors[colorButton.Name] : addColors["White"];
             _storeColor = color;
+            _storeColorHex = (colorButton.Name != "") ? addColorsHEX[colorButton.Name] : addColorsHEX["White"];
             SelectedBorder = CreateUICurrentBorder(color);
             CreateUIAddPanel();
         }
@@ -385,7 +401,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         private void AddAndSaveLabel(object sender, RoutedEventArgs e)
         {
             LabelData newLabel = new LabelData();
-            newLabel.Color = _storeColor;
+            newLabel.Color = _storeColorHex;
             newLabel.Description = NameNewLabel;
 
             bool focuseFlag = true;
@@ -406,6 +422,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             newPanel.Children.Add(CreateDefButton());
 
             _storeColor = null;
+            _storeColorHex = null;
             NameNewLabel = "";
             CreateNewLabel = newPanel;
             LabelList = UpdateLabelList();
@@ -417,6 +434,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             newPanel.Children.Add(CreateDefButton());
 
             _storeColor = null;
+            _storeColorHex = null;
             NameNewLabel = "";
             CreateNewLabel = newPanel;
         }

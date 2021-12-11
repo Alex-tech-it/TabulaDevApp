@@ -188,8 +188,8 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             while (true)
             {
-                try
-                {
+                //try
+                //{
                     if (network.UpdateUser(userModel))
                     {
                         Console.WriteLine("### Update User Data: OK");
@@ -199,11 +199,11 @@ namespace TabulaDevApp.MVVM.ViewModels
                         Console.WriteLine("--- Update User Data: FAILD ---");
                     }
                     
-                }
-                catch
-                {
-                    Console.WriteLine();
-                }
+                //}
+                //catch
+                //{
+                //    Console.WriteLine();
+                //}
                 Thread.Sleep(1000);
             }
         }
