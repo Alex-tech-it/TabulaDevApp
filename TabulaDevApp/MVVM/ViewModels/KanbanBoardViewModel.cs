@@ -70,7 +70,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateMembersBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel();
+                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel(navigation, model, upperNavigation, user);
             });
             StartUpGrid();
             UpdateStackPanel();

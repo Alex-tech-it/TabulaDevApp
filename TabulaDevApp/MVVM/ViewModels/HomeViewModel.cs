@@ -99,7 +99,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateMainPageCommand = new RelayCommand(obj =>
             {
                 _navigationMenuStore.UpperViewModel = null;
-                _navigationMenuStore.CurrentViewModel = new MainPageViewModel();
+                _navigationMenuStore.CurrentViewModel = new MainPageViewModel(user);
             });
 
             NavigateCommunityCommand = new RelayCommand(obj =>
@@ -183,21 +183,20 @@ namespace TabulaDevApp.MVVM.ViewModels
                 _navigationStore,
                 userModel);
         }
-
         public void ConnectionServer()
         {
             while (true)
             {
                 //try
                 //{
-                    if (network.UpdateUser(userModel))
-                    {
-                        Console.WriteLine("### Update User Data: OK");
-                    }
-                    else
-                    {
-                        Console.WriteLine("--- Update User Data: FAILD ---");
-                    }
+                if (network.UpdateUser(userModel))
+                {
+                    Console.WriteLine("### Update User Data: OK");
+                }
+                else
+                {
+                    Console.WriteLine("--- Update User Data: FAILD ---");
+                }
                     
                 //}
                 //catch

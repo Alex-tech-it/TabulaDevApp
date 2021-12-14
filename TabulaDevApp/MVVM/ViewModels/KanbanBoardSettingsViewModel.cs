@@ -110,6 +110,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         public RelayCommand NavigateSaveBoardCommand { get; set; }
         public RelayCommand NavigateExitBoardCommand { get; set; }
         public RelayCommand NavigateDeleteBoardCommand { get; set; }
+        public RelayCommand NavigateMembersBoardCommand { get; set; }
         public KanbanBoardSettingsViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user)
         {
             kanbanBoardModel = model;
@@ -146,7 +147,13 @@ namespace TabulaDevApp.MVVM.ViewModels
                 user.userBoards.Remove(kanbanBoardModel);
                 navigation.UpperViewModel = null;
                 upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, user, navigation);
-                navigation.CurrentViewModel = new MainPageViewModel();
+                navigation.CurrentViewModel = new MainPageViewModel(user);
+            });
+
+            NavigateMembersBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel(navigation, model, upperNavigation, user);
             });
         }
 

@@ -13,6 +13,7 @@ namespace TabulaDevApp.MVVM.Models
         public string Password { get; set; }
         public string Username { get; set; }
         public ObservableCollection<KanbanBoardModel> userBoards { get; set; }
+        public ObservableCollection<NotificationsBoard> notifications { get; set; }
 
         public UserModel()
         {
@@ -20,6 +21,7 @@ namespace TabulaDevApp.MVVM.Models
             Password = "";
             Username = "";
             userBoards = new ObservableCollection<KanbanBoardModel>();
+            notifications = new ObservableCollection<NotificationsBoard>();
         }
 
         public void Clear()
@@ -28,6 +30,7 @@ namespace TabulaDevApp.MVVM.Models
             Password = "";
             Username = "";
             userBoards = new ObservableCollection<KanbanBoardModel>();
+            notifications = new ObservableCollection<NotificationsBoard>();
         }
 
     }

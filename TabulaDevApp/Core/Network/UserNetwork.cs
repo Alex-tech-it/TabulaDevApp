@@ -9,6 +9,7 @@ using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace TabulaDevApp.Core.Network
 {
@@ -53,7 +54,8 @@ namespace TabulaDevApp.Core.Network
 
                 outer.Wait(); // ожидаем выполнения внешней задачи
                 return user;
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 return null;
             }
@@ -76,19 +78,19 @@ namespace TabulaDevApp.Core.Network
 
         public bool UpdateUser(UserModel model)
         {
-            //try
-            //{
+            try
+            {
                 IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
                 String id = "@" + model.Username.Trim();
 
                 var setter = _client.Update("Users" + "/" + id + "/", model);
 
                 return true;
-            //}
-            //catch (Exception e)
-            //{
-            //    return false;
-            //}
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool FreeNicknameCheck(string nickname)
@@ -124,12 +126,159 @@ namespace TabulaDevApp.Core.Network
                 outer.Wait(); // ожидаем выполнения внешней задачи
 
                 return result;
-            }catch (Exception)
+            }
+            catch (Exception)
             {
                 return true;
             }
         }
 
+        public ObservableCollection<string> FindUsers(string name)
+        {
+            ObservableCollection<string> users = new ObservableCollection<string>();
+
+            IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+            var res = _client.Get("Users");
+            var data = JsonConvert.DeserializeObject<Dictionary<string, UserModel>>(res.Body.ToString());
+            if (data != null)
+            {
+                foreach (KeyValuePair<string, UserModel> item in data)
+                {
+                    if (item.Key.Contains(name))
+                    {
+                        users.Add(item.Key);
+                    }
+                }
+            }
+        return users;
+        }
+        
+        public async Task<ObservableCollection<string>> FindUsers(string name, string owner)
+        {
+            ObservableCollection<string> users = new ObservableCollection<string>();
+            await Task.Run(() =>
+            {
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users");
+                var data = JsonConvert.DeserializeObject<Dictionary<string, UserModel>>(res.Body.ToString());
+                if (data != null)
+                {
+                    foreach (KeyValuePair<string, UserModel> item in data)
+                    {
+                        if (item.Key.Contains(name) && item.Key != "@" + owner)
+                        {
+                            users.Add(item.Key);
+                        }
+                    }
+                }
+            });
+            return users;
+        }
+
+        public async Task InviteUser(string user, string from, string titleBoard)
+        {
+            await Task.Run(() =>
+            {
+                NotificationsBoard notification = new NotificationsBoard();
+                notification.User = user;
+                notification.From = from;
+                notification.TitleBoard = titleBoard;
+
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + user + "/NotificationsBoard");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<NotificationsBoard>>(res.Body.ToString());
+                if (data != null)
+                {
+                    data.Add(notification);
+                    var setter = _client.Set("Users" + "/" + user + "/NotificationsBoard/", data);
+                }
+                else
+                {
+                    var setter = _client.Set("Users" + "/" + user + "/NotificationsBoard/0", notification);
+                }
+            });
+        }
+
+        public async Task DeleteInivteUser(string user, string from, string titleBoard)
+        {
+            await Task.Run(() =>
+            {
+                NotificationsBoard notification = new NotificationsBoard();
+                notification.User = user;
+                notification.From = from;
+                notification.TitleBoard = titleBoard;
+
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + user + "/NotificationsBoard");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<NotificationsBoard>>(res.Body.ToString());
+                if (data != null)
+                {
+                    var buff = new NotificationsBoard();
+                    foreach(var item in data)
+                    {
+                        if (item.User == notification.User && item.From == notification.From && item.TitleBoard == notification.TitleBoard)
+                        {
+                            buff = item;
+                            break;
+                        }
+                    }
+                    data.Remove(buff);
+                    var setter = _client.Set("Users" + "/" + user + "/NotificationsBoard/", data);
+                }
+            });
+        }
+
+        public async Task<ObservableCollection<NotificationsBoard>> GetNotify(string username)
+        {
+            ObservableCollection<NotificationsBoard> notify = new ObservableCollection<NotificationsBoard>();
+            await Task.Run(() =>
+            {
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + username + "/NotificationsBoard");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<NotificationsBoard>>(res.Body.ToString());
+                if (data != null)
+                {
+                    notify = data;
+                }
+            });
+
+            return notify;
+        }
+
+        public async Task DeletePartFromBoard(string username, string from, string titleboard)
+        {
+            await Task.Run(() =>
+            {
+                string buff = "";
+                int index = -1;
+
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + from + "/userBoards");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<KanbanBoardModel>>(res.Body.ToString());
+                if (data != null)
+                {
+                    for(int i = 0; i < data.Count; i++)
+                    {
+                        if(data[i].TitleBoard == titleboard)
+                        {
+                           foreach(var part in data[i].Participants)
+                            {
+                                if(part == username)
+                                {
+                                    buff = username;
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    data[index].Participants.Remove(buff);
+                    var setter = _client.Set("Users/" + from + "/userBoards", data);
+
+                }
+            });
+        }
         private string GetHashString(string s)
         {
             //переводим строку в байт-массим  
@@ -150,5 +299,6 @@ namespace TabulaDevApp.Core.Network
 
             return hash;
         }
+
     }
 }

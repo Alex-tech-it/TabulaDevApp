@@ -47,6 +47,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                     KanbanBoardModel newModel = new KanbanBoardModel();
                     IsNext = false; ;
                     newModel.TitleBoard = TitleBoard;
+                    newModel.OwnCreater = user.Username;
                     user.userBoards.Add(newModel);
                     navigation.UpperViewModel = null;
                     navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, newModel, upperNavigation, user);
@@ -62,7 +63,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             NavigateExitBoardCommand = new RelayCommand(obj =>
             {
                 navigation.UpperViewModel = null;
-                navigation.CurrentViewModel = new MainPageViewModel();
+                navigation.CurrentViewModel = new MainPageViewModel(user);
             });
         }
     }

@@ -9,6 +9,8 @@ namespace TabulaDevApp.MVVM.Models
         private string _titleBoard;
         private ObservableCollection<ColumnData> _lists;
         private ObservableCollection<LabelData> _labelList;
+        private ObservableCollection<string> _participants;
+
         public int countColumn { get; set; }
         public string UniqueId { get; set; }
         public string TitleBoard {
@@ -37,13 +39,22 @@ namespace TabulaDevApp.MVVM.Models
                 OnPropertyChanged();
             }
         }
-
+        public ObservableCollection<string> Participants
+        {
+            get => _participants;
+            set
+            {
+                _participants = value;
+                OnPropertyChanged();
+            }
+        }
 
         public KanbanBoardModel()
         {
             TitleBoard = "Новая доска";
             Lists = new ObservableCollection<ColumnData>();
             LabelList = new ObservableCollection<LabelData>();
+            Participants = new ObservableCollection<string>();
         }
     }
 }

@@ -241,6 +241,7 @@
     <Compile Include="MVVM\Models\ColumnData.cs" />
     <Compile Include="MVVM\Models\KanbanBoardModel.cs" />
     <Compile Include="MVVM\Models\LabelData.cs" />
+    <Compile Include="MVVM\Models\NotificationsBoard.cs" />
     <Compile Include="MVVM\Models\Participant.cs" />
     <Compile Include="MVVM\Models\RegistrationModel.cs" />
     <Compile Include="MVVM\Models\DragAndDropUIList.cs" />
