@@ -61,6 +61,15 @@
                     Cursor="Hand"
                     Margin="5 0 0 0"
                     Style="{StaticResource PreviewNavigationButtonStyle}"/>
+            <Border Background="#F4F5F5" Width="2"
+                    Margin="10 0 0 0"/>
+            <Button Content="Чат доски"
+                    FontSize="16"
+                    Foreground="#F4F5F5"
+                    Cursor="Hand"
+                    Margin="10 0 0 0"
+                    Style="{StaticResource PreviewNavigationButtonStyle}"
+                    Command="{Binding NavigateChatBoardCommand}"/>
 
         </StackPanel>
 

@@ -23,8 +23,11 @@ namespace TabulaDevApp.MVVM.ViewModels
 
         UserModel _userModel;
 
+        // Commands
         public RelayCommand NavigateSettingsBoardCommand { get; set; }
         public RelayCommand NavigateMembersBoardCommand { get; set; }
+        public RelayCommand NavigateChatBoardCommand { get; set; }
+
 
         // Gettter & Setter
         public StackPanel CurrentStackPanel
@@ -71,6 +74,11 @@ namespace TabulaDevApp.MVVM.ViewModels
             {
                 navigation.UpperViewModel = null;
                 navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel(navigation, model, upperNavigation, user);
+            });
+            NavigateChatBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new ChatViewModel(navigation, model, upperNavigation, user);
             });
             StartUpGrid();
             UpdateStackPanel();

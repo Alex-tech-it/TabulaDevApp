@@ -48,6 +48,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                     IsNext = false; ;
                     newModel.TitleBoard = TitleBoard;
                     newModel.OwnCreater = user.Username;
+                    newModel.ChatId = Guid.NewGuid().ToString();
                     user.userBoards.Add(newModel);
                     navigation.UpperViewModel = null;
                     navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, newModel, upperNavigation, user);

@@ -26,6 +26,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
         public RelayCommand NavigateToBoardCommand { get; set; }
         public RelayCommand NavigateSettingsCommand { get; set; }
+        public RelayCommand NavigateChatBoardCommand { get; set; }
 
         public TextBox TextBoxSearch
         {
@@ -84,6 +85,11 @@ namespace TabulaDevApp.MVVM.ViewModels
             {
                 navigation.UpperViewModel = null;
                 navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, kanbanBoardModel, upperNavigation, _user);
+            });
+            NavigateChatBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new ChatViewModel(navigation, model, upperNavigation, user);
             });
         }
 

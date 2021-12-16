@@ -13,6 +13,9 @@ namespace TabulaDevApp.MVVM.Models
 
         public int countColumn { get; set; }
         public string UniqueId { get; set; }
+
+        public string ChatId { get; set; }
+        
         public string TitleBoard {
             get => _titleBoard;
             set

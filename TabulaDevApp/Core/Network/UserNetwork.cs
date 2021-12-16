@@ -279,25 +279,52 @@ namespace TabulaDevApp.Core.Network
                 }
             });
         }
+
+        public async Task PushMessage(ChatModel message, string ChatId)
+        {
+            await Task.Run(() =>
+            {
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Chats/" + ChatId);
+                var data = JsonConvert.DeserializeObject<ObservableCollection<ChatModel>>(res.Body.ToString());
+                if (data != null)
+                {
+                    data.Add(message);
+                    var setter = _client.Set("Chats/" + ChatId, data);
+                }
+                else
+                {
+                    ObservableCollection<ChatModel> newCollectionDB = new ObservableCollection<ChatModel>();
+                    newCollectionDB.Add(message);
+                    var setter = _client.Set("Chats/" + ChatId, newCollectionDB);
+                }
+            });
+        }
+
+        public async Task<ObservableCollection<ChatModel>> GetMessages(string ChatId)
+        {
+            ObservableCollection<ChatModel> chatMessages = new ObservableCollection<ChatModel>();
+            await Task.Run(() =>
+            {
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Chats/" + ChatId);
+                var data = JsonConvert.DeserializeObject<ObservableCollection<ChatModel>>(res.Body.ToString());
+                if (data != null)
+                {
+                    chatMessages = data;
+                }
+            });
+
+            return chatMessages;
+        }
+
         private string GetHashString(string s)
         {
-            //переводим строку в байт-массим  
-            byte[] bytes = Encoding.Unicode.GetBytes(s);
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] checkSum = md5.ComputeHash(Encoding.UTF8.GetBytes(s));
+            string result = BitConverter.ToString(checkSum).Replace("-", String.Empty);
 
-            //создаем объект для получения средст шифрования  
-            MD5CryptoServiceProvider CSP =
-                new MD5CryptoServiceProvider();
-
-            //вычисляем хеш-представление в байтах  
-            byte[] byteHash = CSP.ComputeHash(bytes);
-
-            string hash = string.Empty;
-
-            //формируем одну цельную строку из массива  
-            foreach (byte b in byteHash)
-                hash += string.Format("{0:x2}", b);
-
-            return hash;
+            return result.ToLower();
         }
 
     }

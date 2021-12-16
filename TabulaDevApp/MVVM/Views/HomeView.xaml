@@ -56,6 +56,10 @@
         <DataTemplate DataType="{x:Type viewModel:KanbanBoardManageMembersViewModel}">
             <view:KanbanBoardManageMembersView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:ChatViewModel}">
+            <view:ChatView/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Grid>

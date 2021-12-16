@@ -122,6 +122,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\Views\ChatView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\Views\CommunityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -238,6 +242,7 @@
   <ItemGroup>
     <Compile Include="MVVM\Models\AuthorizationModel.cs" />
     <Compile Include="MVVM\Models\Card.cs" />
+    <Compile Include="MVVM\Models\ChatModel.cs" />
     <Compile Include="MVVM\Models\ColumnData.cs" />
     <Compile Include="MVVM\Models\KanbanBoardModel.cs" />
     <Compile Include="MVVM\Models\LabelData.cs" />
@@ -249,6 +254,7 @@
     <Compile Include="MVVM\ViewModels\AddCardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\AuthorizationViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CardViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ChatViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CommunityViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CreatKanbanBoardViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HomeViewModel.cs" />
@@ -271,6 +277,9 @@
     </Compile>
     <Compile Include="MVVM\Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Views\ChatView.xaml.cs">
+      <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Views\CommunityView.xaml.cs">
       <DependentUpon>CommunityView.xaml</DependentUpon>
