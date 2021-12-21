@@ -109,8 +109,10 @@
                                    Width="240" 
                                    Height="1"/>
                         <StackPanel>
-                            <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden"
-                            HorizontalScrollBarVisibility="Hidden">
+                            <ScrollViewer x:Name="scrollViewer_10" 
+                                          VerticalScrollBarVisibility="Hidden"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          Height="500">
                                 <ContentPresenter Content="{Binding StackPanelListBoards}" 
                                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Top" Margin="10 5 10 0"/>

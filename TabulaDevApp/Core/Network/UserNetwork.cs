@@ -175,7 +175,7 @@ namespace TabulaDevApp.Core.Network
             return users;
         }
 
-        public async Task InviteUser(string user, string from, string titleBoard)
+        public async Task InviteUser(string user, string from, string titleBoard, string uniqueId)
         {
             await Task.Run(() =>
             {
@@ -183,6 +183,7 @@ namespace TabulaDevApp.Core.Network
                 notification.User = user;
                 notification.From = from;
                 notification.TitleBoard = titleBoard;
+                notification.UniqueId = uniqueId;
 
                 IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
                 var res = _client.Get("Users/" + user + "/NotificationsBoard");
@@ -228,6 +229,29 @@ namespace TabulaDevApp.Core.Network
             });
         }
 
+        public async Task ConfirmInviteUser(string user, string from, string titleBoard, string uniqueId)
+        {
+            await Task.Run(() =>
+            {
+                InviteInfo inviteInfo = new InviteInfo();
+                inviteInfo.From = from;
+                inviteInfo.UniqueId = uniqueId;
+
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + user + "/InvitedTo");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<InviteInfo>>(res.Body.ToString());
+                if (data != null)
+                {
+                    data.Add(inviteInfo);
+                    var setter = _client.Set("Users" + "/" + user + "/InvitedTo/", data);
+                }
+                else
+                {
+                    var setter = _client.Set("Users" + "/" + user + "/InvitedTo/0", inviteInfo);
+                }
+            });
+        }
+        
         public async Task<ObservableCollection<NotificationsBoard>> GetNotify(string username)
         {
             ObservableCollection<NotificationsBoard> notify = new ObservableCollection<NotificationsBoard>();
@@ -301,6 +325,28 @@ namespace TabulaDevApp.Core.Network
             });
         }
 
+        public string GetTitleBoardFromUniqueId(string from, string uniqueId)
+        {
+
+            string title = "";
+            IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+            var res = _client.Get("Users/" + from + "/userBoards");
+            var data = JsonConvert.DeserializeObject<ObservableCollection<KanbanBoardModel>>(res.Body.ToString());
+            if (data != null)
+            {
+                foreach(KanbanBoardModel model in data)
+                {
+                    if(model.UniqueId == uniqueId)
+                    {
+                        title = model.TitleBoard;
+                        break;
+                    }
+                }
+            }
+
+            return title;
+        }
+       
         public async Task<ObservableCollection<ChatModel>> GetMessages(string ChatId)
         {
             ObservableCollection<ChatModel> chatMessages = new ObservableCollection<ChatModel>();

@@ -22,7 +22,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         private NavigationStore _navigationMenuStore;
         private StackPanel _listBoards;
         private NavigationStore _navigationStore;
-
+        private string _titleBoardAsync;
         // Data
         private UserModel userModel;
         private UserNetwork network;
@@ -100,18 +100,21 @@ namespace TabulaDevApp.MVVM.ViewModels
             {
                 _navigationMenuStore.UpperViewModel = null;
                 _navigationMenuStore.CurrentViewModel = new MainPageViewModel(user);
+                UpdateListBoards();
             });
 
             NavigateCommunityCommand = new RelayCommand(obj =>
             {
                 _navigationMenuStore.UpperViewModel = null;
                 _navigationMenuStore.CurrentViewModel = new CommunityViewModel();
+                UpdateListBoards();
             });
 
             NavigateOwnCardsCommand = new RelayCommand(obj =>
             {
                 _navigationMenuStore.UpperViewModel = null;
                 _navigationMenuStore.CurrentViewModel = new OwnCardViewModel();
+                UpdateListBoards();
             });
 
             NavigateSettingsCommand = new RelayCommand(obj =>
@@ -154,7 +157,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         }
     
         // UI Funcs
-        private void UpdateListBoards()
+        private async void UpdateListBoards()
         {
             StackPanel newPanel = new StackPanel();
             for (int i = 0; i < userModel.userBoards.Count; i++)
@@ -165,11 +168,45 @@ namespace TabulaDevApp.MVVM.ViewModels
                 newButton.Margin = new Thickness(0, 5, 0, 5);
                 newButton.Content = userModel.userBoards[i].TitleBoard;
                 newButton.Foreground = Brushes.White;
+                newButton.MaxWidth = 220;
                 newButton.Style = Application.Current.Resources["PreviewNavigationButtonStyle"] as Style;
-                
+
                 newPanel.Children.Add(newButton);
             }
 
+            if (userModel.InvitedTo.Count > 0)
+            {
+                Separator separator = new Separator();
+                SolidColorBrush backgroundSeparator = new SolidColorBrush { Color = Color.FromRgb(118, 118, 118) };
+                separator.HorizontalAlignment = HorizontalAlignment.Center;
+                separator.Width = 150;
+                separator.Height = 0.5;
+
+                newPanel.Children.Add(separator);
+            }
+
+            for (int i = 0; i < userModel.InvitedTo.Count; i++)
+            {
+                Button newButton = new Button();
+                string titel = "";
+                await Task.Run(() =>
+                {
+                    titel = network.GetTitleBoardFromUniqueId(userModel.InvitedTo[i].From, userModel.InvitedTo[i].UniqueId);
+                });
+                newButton.Name = "InvitedToBoard_" + Convert.ToString(i);
+                newButton.Click += OnBoardClick;
+                newButton.Margin = new Thickness(0, 5, 0, 5);
+                newButton.Content = titel;
+                newButton.Foreground = Brushes.White;
+                newButton.MaxWidth = 220;
+                newButton.Style = Application.Current.Resources["PreviewNavigationButtonStyle"] as Style;
+
+                newPanel.Children.Add(newButton);
+            }
+
+ 
+            
+            
             StackPanelListBoards = newPanel;
         }
         private void OnBoardClick(object sender, RoutedEventArgs e)
@@ -178,10 +215,13 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = board.Name.Split(new char[] { '_' });
             int index = Convert.ToInt32(arrayWordsButton[1]);
 
-            _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel(_navigationMenuStore, 
-                userModel.userBoards[index],  
-                _navigationStore,
-                userModel);
+            if (arrayWordsButton[0] == "Board")
+            {
+                _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel(_navigationMenuStore,
+                    userModel.userBoards[index],
+                    _navigationStore,
+                    userModel);
+            }
         }
         public void ConnectionServer()
         {
@@ -206,7 +246,6 @@ namespace TabulaDevApp.MVVM.ViewModels
                 Thread.Sleep(1000);
             }
         }
-
 
     }
 }

@@ -170,9 +170,9 @@ namespace TabulaDevApp.MVVM.ViewModels
             SearchUsers = newPanel;
         }
 
-        private async void InviteUser(string userName, string from)
+        private async void InviteUser(string userName, string from, string uniqueId)
         {
-            await network.InviteUser(userName, from, kanbanBoardModel.TitleBoard);
+            await network.InviteUser(userName, from, kanbanBoardModel.TitleBoard, uniqueId);
         }
 
         private async void DeleteInviteUser(string userName, string from)
@@ -398,7 +398,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             kanbanBoardModel.Participants.Add("@" + arrayWordsButton[1]);
             UpdateSearchUserPanel(flag: false);
             UpdatePart();
-            InviteUser("@" + arrayWordsButton[1], "@" + _user.Username);
+            InviteUser("@" + arrayWordsButton[1], "@" + _user.Username, kanbanBoardModel.UniqueId);
         }
 
         private void DeleteUserToBoard(object sender, RoutedEventArgs e)

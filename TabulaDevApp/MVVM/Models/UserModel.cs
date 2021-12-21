@@ -14,6 +14,7 @@ namespace TabulaDevApp.MVVM.Models
         public string Username { get; set; }
         public ObservableCollection<KanbanBoardModel> userBoards { get; set; }
         public ObservableCollection<NotificationsBoard> notifications { get; set; }
+        public ObservableCollection<InviteInfo> InvitedTo { get; set; }
 
         public UserModel()
         {
@@ -22,6 +23,7 @@ namespace TabulaDevApp.MVVM.Models
             Username = "";
             userBoards = new ObservableCollection<KanbanBoardModel>();
             notifications = new ObservableCollection<NotificationsBoard>();
+            InvitedTo = new ObservableCollection<InviteInfo>();
         }
 
         public void Clear()
@@ -31,6 +33,7 @@ namespace TabulaDevApp.MVVM.Models
             Username = "";
             userBoards = new ObservableCollection<KanbanBoardModel>();
             notifications = new ObservableCollection<NotificationsBoard>();
+            InvitedTo = new ObservableCollection<InviteInfo>();
         }
 
     }

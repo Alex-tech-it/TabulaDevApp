@@ -244,6 +244,7 @@
     <Compile Include="MVVM\Models\Card.cs" />
     <Compile Include="MVVM\Models\ChatModel.cs" />
     <Compile Include="MVVM\Models\ColumnData.cs" />
+    <Compile Include="MVVM\Models\InviteInfo.cs" />
     <Compile Include="MVVM\Models\KanbanBoardModel.cs" />
     <Compile Include="MVVM\Models\LabelData.cs" />
     <Compile Include="MVVM\Models\NotificationsBoard.cs" />

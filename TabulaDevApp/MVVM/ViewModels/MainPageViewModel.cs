@@ -30,7 +30,6 @@ namespace TabulaDevApp.MVVM.ViewModels
             }
         }
 
-
         public MainPageViewModel(UserModel user)
         {
             _user = user;
@@ -149,17 +148,12 @@ namespace TabulaDevApp.MVVM.ViewModels
             UserNotify = newPanel;
         }
 
-        private void UpdateUserNotify()
-        {
-
-        }
-
-
         private void CancelUserToBoard(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
             int index = Convert.ToInt32(arrayWordsButton[1]);
+            
             DeleteInviteUser(_notifyList[index].User, _notifyList[index].From, _notifyList[index].TitleBoard);
         }
 
@@ -167,7 +161,21 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             Button button = (Button)sender;
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
-            //DeleteInviteUser(arrayWordsButton[1], arrayWordsButton[2], arrayWordsButton[3]);
+            int index = Convert.ToInt32(arrayWordsButton[1]);
+            ConfirmInviteUser(_notifyList[index].User, _notifyList[index].From, _notifyList[index].TitleBoard, _notifyList[index].UniqueId);
+
+        }
+
+        private async void ConfirmInviteUser(string userName, string from, string titleBoard, string uniqueId)
+        {
+            await network.DeleteInivteUser(userName, from, titleBoard);
+            await network.ConfirmInviteUser(userName, from, titleBoard, uniqueId);
+            InviteInfo confirmInvite = new InviteInfo();
+            confirmInvite.From = from;
+            confirmInvite.UniqueId = uniqueId;
+            _user.InvitedTo.Add(confirmInvite);
+
+            GetNotify(userName);
         }
 
         private async void DeleteInviteUser(string userName, string from, string titleBoard)
@@ -176,5 +184,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             await network.DeletePartFromBoard(userName, from, titleBoard);
             GetNotify(userName);
         }
+
+
     }
 }

@@ -11,13 +11,14 @@ namespace TabulaDevApp.MVVM.Models
         public string User { get; set; }
         public string From { get; set; }
         public string TitleBoard { get; set; }
-
+        public string UniqueId { get; set; }
 
         public NotificationsBoard()
         {
             User = "";
             From = "";
             TitleBoard = "";
+            UniqueId = "";
         }
     }
 }
