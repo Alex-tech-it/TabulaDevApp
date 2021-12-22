@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TabulaDevApp.Core.Commands;
+using TabulaDevApp.Core.Network;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
 
@@ -22,6 +25,11 @@ namespace TabulaDevApp.MVVM.ViewModels
         private int _dragAndDropStoreColumnIndex;
 
         UserModel _userModel;
+
+        // InvitedBoard Fields
+        private bool isInviteBoard;
+        private InviteInfo inviteBoard;
+        private UserNetwork network;
 
         // Commands
         public RelayCommand NavigateSettingsBoardCommand { get; set; }
@@ -48,16 +56,21 @@ namespace TabulaDevApp.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public bool InviteBoardFlag
+        {
+            get => !isInviteBoard;
+        }
 
         // Ctors
         public KanbanBoardViewModel()
         {
-            
+
         }
         public KanbanBoardViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user)
         {
             _dragAndDropStoreCardIndex = -1;
             _dragAndDropStoreColumnIndex = -1;
+            isInviteBoard = false;
             _dragAndDropEmptyCard = CreateUIEmptyCard();
 
             _userModel = user;
@@ -82,6 +95,46 @@ namespace TabulaDevApp.MVVM.ViewModels
             });
             StartUpGrid();
             UpdateStackPanel();
+        }
+
+        public KanbanBoardViewModel(NavigationStore navigation, NavigationStore upperNavigation, UserModel user, InviteInfo invite)
+        {
+            _dragAndDropStoreCardIndex = -1;
+            _dragAndDropStoreColumnIndex = -1;
+            isInviteBoard = true;
+            _dragAndDropEmptyCard = CreateUIEmptyCard();
+
+            // Init network service
+            network = new UserNetwork();
+
+            // Init fields in board
+            inviteBoard = invite;
+            _userModel = user;                  // user
+            GetBoardFromInvited();              // kanbanModel
+            _navigationStore = navigation;      // navigation inside board
+            _upperNavigation = upperNavigation; // uppernavigation within board
+
+
+            NavigateSettingsBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, kanbanBoardModel, upperNavigation, user, inviteBoard);
+            });
+            NavigateMembersBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel(navigation, kanbanBoardModel, upperNavigation, user);
+            });
+            NavigateChatBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new ChatViewModel(navigation, kanbanBoardModel, upperNavigation, user, inviteBoard);
+            });
+            StartUpGrid();
+            UpdateStackPanel();
+
+            Thread ConnectionScan = new Thread(ConnectionServer) { IsBackground = true };
+            ConnectionScan.Start();
         }
 
         // Init prefered Grid
@@ -119,6 +172,10 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             kanbanBoardModel.Lists.Add(new ColumnData());
             UpdateStackPanel();
+            if (isInviteBoard)
+            {
+                PushInitedBoard();
+            }
         }
 
         // Bilding UI List with Cards
@@ -192,7 +249,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             stackPanel.DragLeave += Column_DragLeave;
             stackPanel.DragEnter += Column_DragEnter;
 
-            
+
             double countHeight = 50;
             if (_dragAndDropStoreCardIndex == 0 && kanbanBoardModel.Lists[indexColumn].Cards.Count == 0 &&
                 _dragAndDropStoreColumnIndex == indexColumn)
@@ -231,7 +288,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                         //_dragAndDropStoreCardIndex = -1;
                         //_dragAndDropStoreColumnIndex = -1;
                         continue;
-                    } 
+                    }
                     else if (_dragAndDropStoreCardIndex == i && _dragAndDropStoreColumnIndex == indexColumn)
                     {
                         Border emptyCard = CreateUIEmptyCard();
@@ -242,7 +299,7 @@ namespace TabulaDevApp.MVVM.ViewModels
                         //_dragAndDropStoreCardIndex = -1;
                         //_dragAndDropStoreColumnIndex = -1;
                     }
-                    
+
                 }
 
                 kanbanBoardModel.Lists[indexColumn].Cards[i].id = Convert.ToString(i) + "_" + indexColumn;
@@ -262,7 +319,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             return newColumn;
         }
-        
+
         // Creat new card in List 
         private void CreateNewCard(object sender, RoutedEventArgs e)
         {
@@ -270,7 +327,14 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = button.Name.Split(new char[] { '_' });
             int columnIndex = Convert.ToInt32(arrayWordsButton[1]);
 
-            _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _upperNavigation, _userModel);
+            if (isInviteBoard)
+            {
+                _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _upperNavigation, _userModel, inviteBoard);
+            }
+            else
+            {
+                _navigationStore.UpperViewModel = new AddCardViewModel(_navigationStore, kanbanBoardModel, columnIndex, _upperNavigation, _userModel);
+            }
 
             UpdateStackPanel();
         }
@@ -281,7 +345,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
             SolidColorBrush background = new SolidColorBrush { Color = Color.FromRgb(47, 48, 55) };
             SolidColorBrush backgroundTitle = new SolidColorBrush { Color = Color.FromRgb(28, 28, 33) };
-            
+
             // Init normal view
             Border newCard = new Border();
 
@@ -353,16 +417,16 @@ namespace TabulaDevApp.MVVM.ViewModels
 
                 labelsPanel.Children.Add(borderLabel);
             }
-            
+
             newPanel.Children.Add(openViewCard);
             newPanel.Children.Add(labelsPanel);
             newPanel.Children.Add(textBlockTitle);
             newPanel.Children.Add(textDescription);
-            
+
             if (card.isDrag)
             {
                 newCard.Opacity = 0.5;
-            } 
+            }
             else
             {
                 newCard.Opacity = 1;
@@ -388,7 +452,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             newCard.Height = 105;
             return newCard;
         }
-        
+
         // Update display
         private void UpdateStackPanel()
         {
@@ -412,7 +476,14 @@ namespace TabulaDevApp.MVVM.ViewModels
             string[] arrayWordsButton = card.Name.Split(new char[] { '_' });
             int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
             int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
-            _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _upperNavigation, _userModel);
+            if (isInviteBoard)
+            {
+                _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _upperNavigation, _userModel, inviteBoard);
+            }
+            else
+            {
+                _navigationStore.UpperViewModel = new CardViewModel(_navigationStore, kanbanBoardModel, columnIndex, cardIndex, _upperNavigation, _userModel);
+            }
         }
 
         // Keeps track of the display of column name changes
@@ -498,7 +569,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             _dragAndDropCurrentCard.isDrag = true;
             Console.WriteLine(column.Name);
             if (data is UIElement element)
-            { 
+            {
                 Point dropPosition = e.GetPosition(column);
                 Canvas.SetLeft(element, dropPosition.X);
                 Canvas.SetTop(element, dropPosition.Y);
@@ -530,7 +601,8 @@ namespace TabulaDevApp.MVVM.ViewModels
                     int cardIndex = Convert.ToInt32(arrayWordsButton[1]);
                     int columnIndex = Convert.ToInt32(arrayWordsButton[2]);
                     column.Children.Remove(element);
-                } catch (Exception) { }
+                }
+                catch (Exception) { }
             }
         }
 
@@ -538,9 +610,10 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             int cardIndex = 0;
             double countHeight = 50;
-            for(int i = 0; i < kanbanBoardModel.Lists[columnIndex].Cards.Count + 1; i++)
+            for (int i = 0; i < kanbanBoardModel.Lists[columnIndex].Cards.Count + 1; i++)
             {
-                if(YPosition >= countHeight && YPosition <= (countHeight + 115)) {
+                if (YPosition >= countHeight && YPosition <= (countHeight + 115))
+                {
                     cardIndex = i;
                     break;
                 }
@@ -576,6 +649,37 @@ namespace TabulaDevApp.MVVM.ViewModels
                     _dragAndDropCurrentCard.isDrag = true;
                     UpdateStackPanel();
                 }
+            }
+        }
+
+        private void GetBoardFromInvited()
+        {
+            kanbanBoardModel = Task.Run(async () => await network.GetInvitedBoard(inviteBoard)).Result;
+        }
+
+        private async void PushInitedBoard()
+        {
+            await network.PushInvitedBoard(kanbanBoardModel, inviteBoard);
+        }
+
+        public void ConnectionServer()
+        {
+            while (true)
+            {
+                try
+                {
+                    GetBoardFromInvited();
+                    Console.WriteLine("### InvatedBoard Update Data: OK");
+                }
+                catch
+                {
+                    Console.WriteLine("---InvatedBoard Update Data: FAILD ---");
+                }
+                Thread.Sleep(1000);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    UpdateStackPanel();
+                });
             }
         }
     }

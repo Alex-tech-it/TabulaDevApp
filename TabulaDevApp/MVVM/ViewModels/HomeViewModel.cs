@@ -222,6 +222,12 @@ namespace TabulaDevApp.MVVM.ViewModels
                     _navigationStore,
                     userModel);
             }
+            else
+            {
+                _navigationMenuStore.CurrentViewModel = new KanbanBoardViewModel(_navigationMenuStore,
+                   _navigationStore,
+                   userModel, userModel.InvitedTo[index]);
+            }
         }
         public void ConnectionServer()
         {

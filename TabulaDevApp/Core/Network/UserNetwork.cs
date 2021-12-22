@@ -364,6 +364,58 @@ namespace TabulaDevApp.Core.Network
             return chatMessages;
         }
 
+        public async Task<KanbanBoardModel> GetInvitedBoard(InviteInfo invite)
+        {
+            KanbanBoardModel boardModel = new KanbanBoardModel();
+            await Task.Run(() =>
+            {
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + invite.From + "/userBoards");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<KanbanBoardModel>>(res.Body.ToString());
+                if (data != null)
+                {
+                    foreach (KanbanBoardModel model in data)
+                    {
+                        if (model.UniqueId == invite.UniqueId)
+                        {
+                            boardModel = model;
+                            break;
+                        }
+                    }
+                }
+            });
+
+            return boardModel;
+        }
+        
+        public async Task PushInvitedBoard(KanbanBoardModel model, InviteInfo invite)
+        {
+            await Task.Run(() =>
+            {
+                IFirebaseClient _client = new FireSharp.FirebaseClient(conf.fcon);
+                var res = _client.Get("Users/" + invite.From + "/userBoards");
+                var data = JsonConvert.DeserializeObject<ObservableCollection<KanbanBoardModel>>(res.Body.ToString());
+                if (data != null)
+                {
+                    int index = -1;
+                    for(int i = 0; i < data.Count; i++)
+                    {
+                        if(data[i].UniqueId == invite.UniqueId)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    if(index != -1)
+                    {
+                        data[index] = model;
+                        var setter = _client.Set("Users/" + invite.From + "/userBoards", data);
+                    }
+                }
+            });
+        }
+
         private string GetHashString(string s)
         {
             MD5 md5 = new MD5CryptoServiceProvider();

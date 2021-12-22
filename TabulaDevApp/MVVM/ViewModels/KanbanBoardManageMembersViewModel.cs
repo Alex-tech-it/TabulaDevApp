@@ -120,7 +120,6 @@ namespace TabulaDevApp.MVVM.ViewModels
                 foreach (string item in userSearch)
                 {
                     string itemName = item.Replace("@", "");
-                    Console.WriteLine(itemName);
                     // Init Layouts
                     Border border = new Border();
                     Grid grid = new Grid();
@@ -246,6 +245,7 @@ namespace TabulaDevApp.MVVM.ViewModels
 
                     // BORDER
                     border.Style = System.Windows.Application.Current.Resources["BackgroundBorder"] as Style;
+                    border.Height = 35;
 
                     // TEXTBLOCK
                     username.FontSize = 14;

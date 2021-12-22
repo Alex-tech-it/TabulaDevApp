@@ -23,6 +23,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         private KanbanBoardModel _kanbanBoardModel;
         private string _message;
         private StackPanel _chatMessages;
+        private bool isInviteBoard;
 
         // Commands
         public RelayCommand NavigateSettingsBoardCommand { get; set; }
@@ -57,7 +58,10 @@ namespace TabulaDevApp.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        public bool InviteBoardFlag
+        {
+            get => !isInviteBoard;
+        }
         public FontWeight FOntWeights { get; private set; }
 
         public ChatViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user)
@@ -65,6 +69,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             kanbanBoardModel = model;
             _user = user;
             network = new UserNetwork();
+            isInviteBoard = false;
             UpdateMessages();
 
             // Inits Commands
@@ -86,6 +91,35 @@ namespace TabulaDevApp.MVVM.ViewModels
             Thread ConnectionScan = new Thread(ConnectionServer) { IsBackground = true };
             ConnectionScan.Start();
         }
+        public ChatViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user, InviteInfo invite)
+        {
+            kanbanBoardModel = model;
+            _user = user;
+            network = new UserNetwork();
+            isInviteBoard = true;
+            UpdateMessages();
+
+            // Inits Commands
+            NavigateSettingsBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardSettingsViewModel(navigation, model, upperNavigation, user, invite);
+            });
+            NavigateMembersBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel(navigation, model, upperNavigation, user);
+            });
+            PushMessageCommand = new RelayCommand(obj =>
+            {
+                PushMessage(Message);
+                Message = "";
+            });
+            Thread ConnectionScan = new Thread(ConnectionServer) { IsBackground = true };
+            ConnectionScan.Start();
+        }
+        
+        
         private async void PushMessage(string message)
         {
             ChatModel newMessage = new ChatModel();

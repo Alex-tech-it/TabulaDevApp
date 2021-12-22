@@ -23,6 +23,18 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <Button Content="Удалить карточку"
+                                    Width="140"
+                                    Height="25"
+                                    FontSize="14"
+                                    Background="#ED2939"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    TextBlock.Foreground="White"
+                                    Style="{StaticResource ButtonStyle}"
+                                    Command="{Binding NavigateDeleteCardCommand}" 
+                                    FontWeight="Medium"/>
+
                 <ToggleButton Grid.Column="0" Grid.Row="0"
                               Command="{Binding NavigateSaveCardCommand}"
                               Style="{StaticResource CloseSmallWindow}"
@@ -80,11 +92,7 @@
                             <ScrollViewer x:Name="scrollViewer"
                                           VerticalScrollBarVisibility="Disabled"
                                           HorizontalScrollBarVisibility="Hidden"
-                                          Width="405"
-                                          ScrollViewer.PreviewMouseLeftButtonDown="scrollViewer_PreviewMouseLeftButtonDown"
-                                          ScrollViewer.PreviewMouseMove="scrollViewer_PreviewMouseMove"
-                                          ScrollViewer.PreviewMouseLeftButtonUp="scrollViewer_PreviewMouseLeftButtonUp"
-                                          ScrollViewer.PreviewMouseWheel="scrollViewer_PreviewMouseWheel">
+                                          Width="405">
                                 <ContentControl Height="30"
                                           Content="{Binding LabelList}"/>
                             </ScrollViewer>
@@ -133,6 +141,7 @@
                                        TextAlignment="Center"
                                        FontWeight="Medium"
                                        FontSize="18"
+                                       Width="140"
                                        Margin="0 20 0 10" 
                                        Foreground="#FFF4F5F5"/>
                         </StackPanel>

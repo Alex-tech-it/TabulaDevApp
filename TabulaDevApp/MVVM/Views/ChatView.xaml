@@ -6,6 +6,10 @@
              xmlns:local="clr-namespace:TabulaDevApp.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid Background="#26262C">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -31,18 +35,21 @@
                    HorizontalAlignment="Left"
                    Margin="10 0 0 0"/>
             <Border Background="#F4F5F5" Width="2"
-                    Margin="10 0 0 0"/>
+                    Margin="10 0 0 0"
+                    Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Image Source="/TabulaDevApp;component/Images/MembersIcon.png" 
                    HorizontalAlignment="Left"
                    Margin="10 0 0 0"
-                   Height="20.5"/>
+                   Height="20.5"
+                   Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Button Content="Участники"
                     FontSize="16"
                     Foreground="#F4F5F5"
                     Cursor="Hand"
                     Margin="5 0 0 0"
                     Style="{StaticResource PreviewNavigationButtonStyle}"
-                    Command="{Binding NavigateMembersBoardCommand}"/>
+                    Command="{Binding NavigateMembersBoardCommand}"
+                    Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Border Background="#F4F5F5" Width="2"
                     Margin="10 0 0 0"/>
             <Image Source="/TabulaDevApp;component/Images/SettingsIcon.png" 

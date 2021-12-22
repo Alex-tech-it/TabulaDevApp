@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TabulaDevApp.Core.Commands;
+using TabulaDevApp.Core.Network;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
 
@@ -22,6 +23,8 @@ namespace TabulaDevApp.MVVM.ViewModels
         private StackPanel _addNewLabel;
         private KanbanBoardModel _kanbanBoardModel;
         private ObservableCollection<LabelData> _labelCollection;
+        private InviteInfo inviteBoard;
+
         public bool IsReady
         {
             get => _isReady;
@@ -92,6 +95,42 @@ namespace TabulaDevApp.MVVM.ViewModels
                     model.Lists[indexColumn].Cards.Add(CardModel);
                     navigationStore.UpperViewModel = null;
                     navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, model, upperNavigation, user);
+                }
+                else
+                {
+                    IsReady = true;
+                }
+            });
+            NavigateExitCardCommand = new RelayCommand(obj =>
+            {
+                navigationStore.UpperViewModel = null;
+            });
+        }
+
+        public AddCardViewModel(NavigationStore navigationStore, KanbanBoardModel model,
+            int indexColumn, NavigationStore upperNavigation, UserModel user, InviteInfo invite)
+        {
+            IsReady = false;
+            CardModel = new Card();
+            kanbanBoardModel = model;
+            inviteBoard = invite;
+
+            _labelCollection = new ObservableCollection<LabelData>();
+            StackPanel newPanel = new StackPanel();
+            newPanel.Children.Add(CreateDefButton());
+
+            AddNewLabel = newPanel;
+
+            NavigateSaveCardCommand = new RelayCommand(obj =>
+            {
+                if (CardModel.Title != "")
+                {
+                    IsReady = false;
+                    CardModel.CardLabelList = _labelCollection;
+                    kanbanBoardModel.Lists[indexColumn].Cards.Add(CardModel);
+                    PushInitedBoard();
+                    navigationStore.UpperViewModel = null;
+                    navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, upperNavigation, user, inviteBoard);
                 }
                 else
                 {
@@ -255,6 +294,12 @@ namespace TabulaDevApp.MVVM.ViewModels
 
             
             LabelList = UpdateLabelList();
+        }
+
+        private async void PushInitedBoard()
+        {
+            UserNetwork network = new UserNetwork();
+            await network.PushInvitedBoard(kanbanBoardModel, inviteBoard);
         }
     }
 }

@@ -9,6 +9,7 @@
     
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter_2"/>
         <Style TargetType="Image">
             <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
         </Style>
@@ -37,18 +38,21 @@
                    HorizontalAlignment="Left"
                    Margin="10 0 0 0"/>
             <Border Background="#F4F5F5" Width="2"
-                    Margin="10 0 0 0"/>
+                    Margin="10 0 0 0"
+                    Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter_2}}"/>
             <Image Source="/TabulaDevApp;component/Images/MembersIcon.png" 
                    HorizontalAlignment="Left"
                    Margin="10 0 0 0"
-                   Height="20.5"/>
+                   Height="20.5"
+                   Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter_2}}"/>
             <Button Content="Участники"
                     FontSize="16"
                     Foreground="#F4F5F5"
                     Cursor="Hand"
                     Margin="5 0 0 0"
                     Style="{StaticResource PreviewNavigationButtonStyle}"
-                    Command="{Binding NavigateMembersBoardCommand}"/>
+                    Command="{Binding NavigateMembersBoardCommand}"
+                    Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter_2}}"/>
             <Border Background="#F4F5F5" Width="2"
                     Margin="10 0 0 0"/>
             <Image Source="/TabulaDevApp;component/Images/SettingsIcon.png" 
@@ -157,7 +161,8 @@
                         TextBlock.Foreground="White"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding NavigateDeleteBoardCommand}" 
-                        FontWeight="Medium"/>
+                        FontWeight="Medium"
+                         Visibility="{Binding InviteBoardFlag, Converter={StaticResource BooleanToVisibilityConverter_2}}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TabulaDevApp.Core.Commands;
+using TabulaDevApp.Core.Network;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
 
@@ -22,7 +23,8 @@ namespace TabulaDevApp.MVVM.ViewModels
         private StackPanel _addNewLabel;
         private KanbanBoardModel _kanbanBoardModel;
         private ObservableCollection<LabelData> _labelCollection;
-        
+        private InviteInfo inviteBoard;
+
         public bool IsReady
         {
             get => _isReady;
@@ -71,6 +73,8 @@ namespace TabulaDevApp.MVVM.ViewModels
 
         public RelayCommand NavigateSaveCardCommand { get; set; }
         public RelayCommand NavigateExitCardCommand { get; set; }
+        public RelayCommand NavigateDeleteCardCommand { get; set; }
+
         public CardViewModel(NavigationStore navigationStore, KanbanBoardModel model,
             int indexColumn, int indexCard, NavigationStore upperNavigation, UserModel user)
         {
@@ -104,6 +108,58 @@ namespace TabulaDevApp.MVVM.ViewModels
             {
                 navigationStore.UpperViewModel = null;
             });
+
+            NavigateDeleteCardCommand = new RelayCommand(obj =>
+            {
+                model.Lists[indexColumn].Cards.RemoveAt(indexCard);
+                navigationStore.UpperViewModel = null;
+                navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, model, upperNavigation, user);
+            });
+        }
+
+        public CardViewModel(NavigationStore navigationStore, KanbanBoardModel model,
+            int indexColumn, int indexCard, NavigationStore upperNavigation, UserModel user, InviteInfo invite)
+        {
+            IsReady = false;
+            CardModel = model.Lists[indexColumn].Cards[indexCard];
+            _labelCollection = CardModel.CardLabelList;
+            kanbanBoardModel = model;
+            inviteBoard = invite;
+
+            StackPanel newPanel = new StackPanel();
+            newPanel.Children.Add(CreateDefButton());
+            LabelList = UpdateLabelList();
+
+            AddNewLabel = newPanel;
+
+
+            NavigateSaveCardCommand = new RelayCommand(obj =>
+            {
+                if (CardModel.Title != "")
+                {
+                    IsReady = false;
+                    model.Lists[indexColumn].Cards[indexCard] = CardModel;
+                    PushInitedBoard();
+                    navigationStore.UpperViewModel = null;
+                    navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, upperNavigation, user, inviteBoard);
+                }
+                else
+                {
+                    IsReady = true;
+                }
+            });
+            NavigateExitCardCommand = new RelayCommand(obj =>
+            {
+                navigationStore.UpperViewModel = null;
+            });
+
+            NavigateDeleteCardCommand = new RelayCommand(obj =>
+            {
+                model.Lists[indexColumn].Cards.RemoveAt(indexCard);
+                PushInitedBoard();
+                navigationStore.UpperViewModel = null;
+                navigationStore.CurrentViewModel = new KanbanBoardViewModel(navigationStore, upperNavigation, user, inviteBoard);
+            });
         }
 
         private StackPanel UpdateLabelList()
@@ -112,11 +168,13 @@ namespace TabulaDevApp.MVVM.ViewModels
             newPanel.Orientation = Orientation.Horizontal;
             newPanel.HorizontalAlignment = HorizontalAlignment.Left;
 
+            int index = 0;
             foreach (LabelData label in _labelCollection)
             {
                 Button borderLabel = new Button();
                 SolidColorBrush foreground = new SolidColorBrush { Color = Color.FromRgb(244, 245, 245) };
 
+                borderLabel.Name = "LabelCollection_" + Convert.ToString(index);
                 borderLabel.Content = label.Description;
                 borderLabel.Width = 50;
                 borderLabel.Height = 20;
@@ -127,8 +185,10 @@ namespace TabulaDevApp.MVVM.ViewModels
                 SolidColorBrush backgroundLabel = (SolidColorBrush)new BrushConverter().ConvertFrom(label.Color);
                 borderLabel.Background = backgroundLabel;
                 borderLabel.Style = Application.Current.Resources["ButtonStyle"] as Style;
-
+                borderLabel.Click += DeleteLabelFromCollection;
                 newPanel.Children.Add(borderLabel);
+
+                index++;
             }
 
             return newPanel;
@@ -219,7 +279,7 @@ namespace TabulaDevApp.MVVM.ViewModels
             creatSaveLabel.Click += AddAndSaveLabel;
 
 
-            newPanel.MaxHeight = 100;
+            newPanel.MaxHeight = 150;
             newPanel.MaxWidth = 330;
             newPanel.Children.Add(textBlockTitle);
             newPanel.Children.Add(general);
@@ -250,13 +310,28 @@ namespace TabulaDevApp.MVVM.ViewModels
                 }
             }
 
-            if (focuseFlag)
+            if (focuseFlag && _labelCollection.Count <= 6)
             {
                 _labelCollection.Add(kanbanBoardModel.LabelList[labelIndex]);
             }
 
 
             LabelList = UpdateLabelList();
+        }
+
+        private void DeleteLabelFromCollection(object sender, RoutedEventArgs e)
+        {
+            Button label = (Button)sender;
+            string[] arrayWordsButton = label.Name.Split(new char[] { '_' });
+            int labelIndex = Convert.ToInt32(arrayWordsButton[1]);
+            _labelCollection.RemoveAt(labelIndex);
+            LabelList = UpdateLabelList();
+        }
+
+        private async void PushInitedBoard()
+        {
+            UserNetwork network = new UserNetwork();
+            await network.PushInvitedBoard(kanbanBoardModel, inviteBoard);
         }
     }
 }

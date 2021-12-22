@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TabulaDevApp.Core.Commands;
+using TabulaDevApp.Core.Network;
 using TabulaDevApp.Core.Servies;
 using TabulaDevApp.MVVM.Models;
 
@@ -47,9 +48,11 @@ namespace TabulaDevApp.MVVM.ViewModels
         private KanbanBoardModel _kanbanBoardModel;
         private Border _selectedBorder;
         private SolidColorBrush _storeColor;
+        private InviteInfo inviteBoard;
         private string _storeColorHex;
         private string _nameNewLabel;
         private bool _isReady;
+        private bool isInviteBoard;
 
         public KanbanBoardModel kanbanBoardModel
         {
@@ -106,6 +109,10 @@ namespace TabulaDevApp.MVVM.ViewModels
                 OnPropertyChanged();
             }
         }
+        public bool InviteBoardFlag
+        {
+            get => !isInviteBoard;
+        }
 
         public RelayCommand NavigateSaveBoardCommand { get; set; }
         public RelayCommand NavigateExitBoardCommand { get; set; }
@@ -117,6 +124,7 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             kanbanBoardModel = model;
             LabelList = UpdateLabelList();
+            isInviteBoard = false;
 
             StackPanel newPanel = new StackPanel();
             newPanel.Children.Add(CreateDefButton());
@@ -164,6 +172,59 @@ namespace TabulaDevApp.MVVM.ViewModels
             });
         }
 
+        public KanbanBoardSettingsViewModel(NavigationStore navigation, KanbanBoardModel model, NavigationStore upperNavigation, UserModel user, InviteInfo invite)
+        {
+            kanbanBoardModel = model;
+            LabelList = UpdateLabelList();
+            isInviteBoard = true;
+            inviteBoard = invite;
+
+            StackPanel newPanel = new StackPanel();
+            newPanel.Children.Add(CreateDefButton());
+
+            CreateNewLabel = newPanel;
+            SelectedBorder = CreateUICurrentBorder();
+            IsReady = false;
+
+            NavigateSaveBoardCommand = new RelayCommand(obj =>
+            {
+                if (kanbanBoardModel.TitleBoard != "")
+                {
+                    IsReady = false;
+                    PushInitedBoard();
+                    navigation.UpperViewModel = null;
+                    navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, upperNavigation, user, invite);
+                    upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, user, navigation);
+                }
+                else
+                {
+                    IsReady = true;
+                }
+            });
+            NavigateExitBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardViewModel(navigation, upperNavigation, user, invite);
+            });
+            NavigateDeleteBoardCommand = new RelayCommand(obj =>
+            {
+                user.userBoards.Remove(kanbanBoardModel);
+                navigation.UpperViewModel = null;
+                upperNavigation.CurrentViewModel = new HomeViewModel(upperNavigation, user, navigation);
+                navigation.CurrentViewModel = new MainPageViewModel(user);
+            });
+
+            NavigateMembersBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new KanbanBoardManageMembersViewModel(navigation, model, upperNavigation, user);
+            });
+            NavigateChatBoardCommand = new RelayCommand(obj =>
+            {
+                navigation.UpperViewModel = null;
+                navigation.CurrentViewModel = new ChatViewModel(navigation, model, upperNavigation, user, invite);
+            });
+        }
         private StackPanel UpdateLabelList()
         {
             StackPanel newPanel = new StackPanel();
@@ -473,6 +534,12 @@ namespace TabulaDevApp.MVVM.ViewModels
         {
             TextBox box = (TextBox)sender;
             NameNewLabel = box.Text;
+        }
+
+        private async void PushInitedBoard()
+        {
+            UserNetwork network = new UserNetwork();
+            await network.PushInvitedBoard(kanbanBoardModel, inviteBoard);
         }
     }
 }
